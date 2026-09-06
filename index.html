@@ -33,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        /* Вертикальные направляющие линии */
+        /* Направляющие линии сетки */
         .grid-lines {
             position: fixed;
             top: 0;
@@ -45,7 +45,7 @@
             display: flex;
             justify-content: space-between;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             padding: 0 16px;
         }
 
@@ -55,7 +55,53 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(255, 7, 58, 0.12) 100%);
         }
 
-        /* Красный цвет снизу, доходящий до первой кнопки */
+        /* Анимированный макет смартфона на заднем плане */
+        .phone-bg-stage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .phone-bg-asset {
+            width: 330px;
+            max-width: 82vw;
+            height: auto;
+            opacity: 0.38;
+            filter: contrast(1.05) saturate(1.15);
+            transform-origin: center bottom;
+            animation: phoneEntrance 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, phoneFloat 7s ease-in-out infinite 1.6s;
+            will-change: transform, opacity;
+        }
+
+        @keyframes phoneEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(120px) scale(0.92) rotate(-2deg);
+            }
+            100% {
+                opacity: 0.38;
+                transform: translateY(15px) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% {
+                transform: translateY(15px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(4px) rotate(0.4deg);
+            }
+        }
+
+        /* Красное свечение и радиальный диффузор поверх макета */
         .bottom-mesh {
             position: fixed;
             bottom: -50px;
@@ -66,7 +112,7 @@
             height: 75vh;
             background: radial-gradient(ellipse 90% 70% at 50% 95%, var(--brand-glow) 0%, rgba(255, 7, 58, 0.22) 50%, rgba(255, 7, 58, 0.06) 80%, transparent 100%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             filter: blur(55px);
         }
 
@@ -84,14 +130,14 @@
             mask-image: linear-gradient(to top, rgba(0,0,0,1) 15%, transparent 100%);
             -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 15%, transparent 100%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .container {
             width: 100%;
             max-width: 390px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -114,12 +160,30 @@
             margin-bottom: 8px;
         }
 
-        /* Логотип logo.png */
-        .brand-logo {
-            height: 46px;
-            width: auto;
+        /* Неоновый Apple-стиль сквиркл-контейнер для логотипа */
+        .apple-app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #FF2B54 0%, #E60032 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 
+                0 10px 22px -4px rgba(255, 7, 58, 0.48),
+                0 4px 10px -2px rgba(255, 7, 58, 0.32),
+                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.65),
+                inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-logo-img {
+            width: 28px;
+            height: 28px;
             object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(255, 7, 58, 0.3));
+            display: block;
         }
 
         /* ALPAN VPN — фирменный красный с объемом */
@@ -152,7 +216,7 @@
             gap: 16px;
         }
 
-        /* Выделяющийся Liquid Glass с глубокой тенью и стеклянным отблеском */
+        /* Liquid Glass Card */
         .link-card {
             display: flex;
             align-items: center;
@@ -161,14 +225,13 @@
             border-radius: 30px;
             text-decoration: none;
             
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.52) 100%);
             backdrop-filter: blur(28px) saturate(190%);
             -webkit-backdrop-filter: blur(28px) saturate(190%);
             
             border: 1.5px solid rgba(255, 255, 255, 0.9);
             border-bottom: 1.5px solid rgba(255, 255, 255, 0.5);
 
-            /* Мощные тени + внутренний стеклянный свет */
             box-shadow: 
                 0 20px 38px -10px rgba(0, 0, 0, 0.08),
                 0 12px 28px -6px rgba(255, 7, 58, 0.18),
@@ -192,7 +255,6 @@
             gap: 16px;
         }
 
-        /* Стеклянный контейнер для иконки */
         .icon-box {
             width: 48px;
             height: 48px;
@@ -222,7 +284,6 @@
             gap: 2px;
         }
 
-        /* Заголовки кнопок: градиент от черного к темно-серому */
         .card-title {
             font-size: 16px;
             font-weight: 900;
@@ -233,7 +294,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Подписи кнопок: плавный объемный серый */
         .card-sub {
             font-size: 13px;
             font-weight: 600;
@@ -260,6 +320,12 @@
 </head>
 <body>
 
+    <!-- Фоновый макет устройства (layer 0) -->
+    <div class="phone-bg-stage" aria-hidden="true">
+        <img src="logo2.png" alt="" class="phone-bg-asset">
+    </div>
+
+    <!-- Разметка сетки (layer 1) -->
     <div class="grid-lines">
         <div class="grid-line"></div>
         <div class="grid-line"></div>
@@ -267,15 +333,18 @@
         <div class="grid-line"></div>
     </div>
 
-    <!-- Красное свечение и сетка снизу до первой кнопки -->
+    <!-- Красный светорассеиватель и пиксельная матрица поверх макета (layer 1) -->
     <div class="bottom-mesh"></div>
     <div class="pixel-pattern"></div>
 
+    <!-- Основной интерактивный контент (layer 2) -->
     <main class="container">
-        <!-- Шапка -->
+        <!-- Шапка с иконкой Apple squircle -->
         <header class="header">
             <div class="logo-wrap">
-                <img src="logo.png" alt="ALPAN VPN" class="brand-logo">
+                <div class="apple-app-icon">
+                    <img src="logo.png" alt="ALPAN" class="brand-logo-img">
+                </div>
                 <h1 class="title">ALPAN VPN</h1>
             </div>
             <p class="subtitle">Лучший впн в Дагестане.</p>
