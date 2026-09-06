@@ -55,54 +55,7 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(255, 7, 58, 0.12) 100%);
         }
 
-        /* Фоновый контейнер устройства внизу экрана */
-        .phone-bg-stage {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 580px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            pointer-events: none;
-            z-index: 0;
-            overflow: visible;
-        }
-
-        /* Увеличенный макет: занимает нижние 10-15% видимости, доходя до нижней кнопки */
-        .phone-bg-asset {
-            width: 480px;
-            max-width: 125vw;
-            height: auto;
-            opacity: 0.45;
-            filter: contrast(1.06) saturate(1.2);
-            animation: phoneEntrance 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, phoneFloat 6s ease-in-out infinite 1.5s;
-            will-change: transform, opacity;
-        }
-
-        @keyframes phoneEntrance {
-            0% {
-                opacity: 0;
-                transform: translateY(85%) scale(0.95);
-            }
-            100% {
-                opacity: 0.45;
-                transform: translateY(58%) scale(1);
-            }
-        }
-
-        @keyframes phoneFloat {
-            0%, 100% {
-                transform: translateY(58%);
-            }
-            50% {
-                transform: translateY(55%);
-            }
-        }
-
-        /* Красный светорассеиватель и пиксельная матрица поверх макета */
+        /* Красный фоновый диффузор */
         .bottom-mesh {
             position: fixed;
             bottom: -50px;
@@ -117,6 +70,7 @@
             filter: blur(55px);
         }
 
+        /* Пиксельный паттерн */
         .pixel-pattern {
             position: fixed;
             bottom: 0;
@@ -160,7 +114,7 @@
             margin-bottom: 8px;
         }
 
-        /* Неоновый Apple-стиль сквиркл-контейнер для логотипа */
+        /* Apple squircle иконка */
         .apple-app-icon {
             width: 48px;
             height: 48px;
@@ -186,7 +140,6 @@
             display: block;
         }
 
-        /* ALPAN VPN — фирменный красный с объемом */
         .title {
             font-size: 29px;
             font-weight: 900;
@@ -198,7 +151,6 @@
             filter: drop-shadow(0 2px 8px rgba(255, 7, 58, 0.25));
         }
 
-        /* Подзаголовок с объемным градиентом */
         .subtitle {
             font-size: 16px;
             font-weight: 700;
@@ -214,10 +166,56 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            position: relative;
         }
 
-        /* Liquid Glass Card */
+        /* Фоновый макет: привязан точно к верху первой кнопки и обрамляет весь блок */
+        .phone-bg-stage {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% + 28px);
+            max-width: 418px;
+            pointer-events: none;
+            z-index: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-bg-asset {
+            width: 100%;
+            height: auto;
+            opacity: 0.42;
+            filter: contrast(1.05) saturate(1.18);
+            animation: phoneEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, phoneFloat 6.5s ease-in-out infinite 1.4s;
+            will-change: transform, opacity;
+        }
+
+        @keyframes phoneEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(110px) scale(0.95);
+            }
+            100% {
+                opacity: 0.42;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Стеклянные карточки поверх телефона */
         .link-card {
+            position: relative;
+            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -225,7 +223,7 @@
             border-radius: 30px;
             text-decoration: none;
             
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.52) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.58) 100%);
             backdrop-filter: blur(28px) saturate(190%);
             -webkit-backdrop-filter: blur(28px) saturate(190%);
             
@@ -320,11 +318,6 @@
 </head>
 <body>
 
-    <!-- Фоновый макет устройства: закреплен снизу с подъемом под последнюю кнопку -->
-    <div class="phone-bg-stage" aria-hidden="true">
-        <img src="logo2.png" alt="" class="phone-bg-asset">
-    </div>
-
     <!-- Разметка сетки -->
     <div class="grid-lines">
         <div class="grid-line"></div>
@@ -333,13 +326,12 @@
         <div class="grid-line"></div>
     </div>
 
-    <!-- Красный светорассеиватель и матрица поверх макета -->
+    <!-- Красный диффузор и матрица -->
     <div class="bottom-mesh"></div>
     <div class="pixel-pattern"></div>
 
-    <!-- Основной интерактивный интерфейс -->
     <main class="container">
-        <!-- Шапка с Apple squircle иконкой -->
+        <!-- Шапка -->
         <header class="header">
             <div class="logo-wrap">
                 <div class="apple-app-icon">
@@ -350,8 +342,13 @@
             <p class="subtitle">Лучший впн в Дагестане.</p>
         </header>
 
-        <!-- Кнопки -->
+        <!-- Блок кнопок с макетом смартфона на заднем плане -->
         <div class="buttons-group">
+            <!-- Фоновый макет: верхняя грань выровнена по первой кнопке -->
+            <div class="phone-bg-stage" aria-hidden="true">
+                <img src="logo2.png" alt="" class="phone-bg-asset">
+            </div>
+
             <!-- 1. НАШ БОТ -->
             <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="link-card">
                 <div class="card-left">
