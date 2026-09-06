@@ -55,53 +55,54 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(255, 7, 58, 0.12) 100%);
         }
 
-        /* Анимированный макет смартфона на заднем плане */
+        /* Фоновый контейнер устройства внизу экрана */
         .phone-bg-stage {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 580px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             pointer-events: none;
             z-index: 0;
-            overflow: hidden;
+            overflow: visible;
         }
 
+        /* Увеличенный макет: занимает нижние 10-15% видимости, доходя до нижней кнопки */
         .phone-bg-asset {
-            width: 330px;
-            max-width: 82vw;
+            width: 480px;
+            max-width: 125vw;
             height: auto;
-            opacity: 0.38;
-            filter: contrast(1.05) saturate(1.15);
-            transform-origin: center bottom;
-            animation: phoneEntrance 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, phoneFloat 7s ease-in-out infinite 1.6s;
+            opacity: 0.45;
+            filter: contrast(1.06) saturate(1.2);
+            animation: phoneEntrance 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, phoneFloat 6s ease-in-out infinite 1.5s;
             will-change: transform, opacity;
         }
 
         @keyframes phoneEntrance {
             0% {
                 opacity: 0;
-                transform: translateY(120px) scale(0.92) rotate(-2deg);
+                transform: translateY(85%) scale(0.95);
             }
             100% {
-                opacity: 0.38;
-                transform: translateY(15px) scale(1) rotate(0deg);
+                opacity: 0.45;
+                transform: translateY(58%) scale(1);
             }
         }
 
         @keyframes phoneFloat {
             0%, 100% {
-                transform: translateY(15px) rotate(0deg);
+                transform: translateY(58%);
             }
             50% {
-                transform: translateY(4px) rotate(0.4deg);
+                transform: translateY(55%);
             }
         }
 
-        /* Красное свечение и радиальный диффузор поверх макета */
+        /* Красный светорассеиватель и пиксельная матрица поверх макета */
         .bottom-mesh {
             position: fixed;
             bottom: -50px;
@@ -116,7 +117,6 @@
             filter: blur(55px);
         }
 
-        /* Пиксельный паттерн под кнопками */
         .pixel-pattern {
             position: fixed;
             bottom: 0;
@@ -320,12 +320,12 @@
 </head>
 <body>
 
-    <!-- Фоновый макет устройства (layer 0) -->
+    <!-- Фоновый макет устройства: закреплен снизу с подъемом под последнюю кнопку -->
     <div class="phone-bg-stage" aria-hidden="true">
         <img src="logo2.png" alt="" class="phone-bg-asset">
     </div>
 
-    <!-- Разметка сетки (layer 1) -->
+    <!-- Разметка сетки -->
     <div class="grid-lines">
         <div class="grid-line"></div>
         <div class="grid-line"></div>
@@ -333,13 +333,13 @@
         <div class="grid-line"></div>
     </div>
 
-    <!-- Красный светорассеиватель и пиксельная матрица поверх макета (layer 1) -->
+    <!-- Красный светорассеиватель и матрица поверх макета -->
     <div class="bottom-mesh"></div>
     <div class="pixel-pattern"></div>
 
-    <!-- Основной интерактивный контент (layer 2) -->
+    <!-- Основной интерактивный интерфейс -->
     <main class="container">
-        <!-- Шапка с иконкой Apple squircle -->
+        <!-- Шапка с Apple squircle иконкой -->
         <header class="header">
             <div class="logo-wrap">
                 <div class="apple-app-icon">
