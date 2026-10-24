@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALPAN VPN — Лучший VPN в Дагестане</title>
-    <!-- Подключение премиального шрифта Plus Jakarta Sans -->
+    <title>ALPAN VPN — Стабильный обход глушилок</title>
+    <!-- Подключение шрифтов Unbounded (для мощных заголовков) и Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --brand: #FF073A;
-            --brand-dark: #D50028;
-            --brand-glow: rgba(255, 7, 58, 0.28);
-            --text-primary: #0A0D14;
-            --text-secondary: #525D6F;
-            --bg-color: #F6F8FC;
+            --bg-deep: #06070B;
+            --bg-card: rgba(18, 20, 28, 0.68);
+            --bg-card-hover: rgba(26, 29, 40, 0.85);
+            --brand: #FF0F42;
+            --brand-bright: #FF2E5B;
+            --brand-dark: #A80024;
+            --text-main: #FFFFFF;
+            --text-muted: #949FAF;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(255, 15, 66, 0.45);
         }
 
         * {
@@ -27,64 +31,63 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 36px 20px 48px;
+            padding: 28px 16px 44px;
             position: relative;
             overflow-x: hidden;
-            color: var(--text-primary);
         }
 
-        /* Декоративная фоновая сетка */
-        .bg-grid {
+        /* Кибер-сетка на фоне */
+        .cyber-grid {
             position: fixed;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(10, 13, 20, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(10, 13, 20, 0.03) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
-            -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 85%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, black 20%, transparent 85%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, black 20%, transparent 85%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Фоновые градиентные сферы (Ambient Glow) */
-        .ambient-orb-1 {
+        /* Ambient-свечения (Неоновые туманности) */
+        .glow-top {
             position: fixed;
-            top: -10%;
+            top: -120px;
             left: 50%;
             transform: translateX(-50%);
-            width: 500px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 7, 58, 0.14) 0%, transparent 70%);
-            filter: blur(60px);
+            width: 550px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(255, 15, 66, 0.28) 0%, rgba(180, 0, 40, 0.08) 50%, transparent 75%);
+            filter: blur(70px);
             pointer-events: none;
             z-index: 0;
         }
 
-        .ambient-orb-2 {
+        .glow-bottom {
             position: fixed;
-            bottom: -15%;
+            bottom: -150px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120%;
-            max-width: 800px;
-            height: 55vh;
-            background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 30, 75, 0.28) 0%, rgba(255, 110, 140, 0.12) 55%, transparent 100%);
-            filter: blur(55px);
+            width: 650px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255, 15, 66, 0.22) 0%, transparent 70%);
+            filter: blur(80px);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Главный контейнер (Адаптивный: колонка на мобильном, 2 колонки на ПК) */
-        .stage-wrapper {
+        /* Главный контейнер сцены */
+        .bento-stage {
             width: 100%;
-            max-width: 375px;
+            max-width: 400px;
             position: relative;
             z-index: 2;
             display: flex;
@@ -92,558 +95,694 @@
             align-items: center;
         }
 
-        /* Секция со смартфоном */
-        .phone-showcase {
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 340px;
-            max-width: 90vw;
-            pointer-events: none;
-            z-index: 1;
+        /* =========================================
+           ЗОНА СМАРТФОНА + РАДАР ОБХОДА БЛОКИРОВОК
+           ========================================= */
+        .phone-portal {
+            position: relative;
+            width: 100%;
+            height: 255px;
             display: flex;
             justify-content: center;
-            
-            /* Плавное растворение нижней части телефона на мобильных */
-            mask-image: linear-gradient(to top, transparent 2%, black 42%, black 100%);
-            -webkit-mask-image: linear-gradient(to top, transparent 2%, black 42%, black 100%);
-
-            animation: phoneReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            will-change: transform, opacity;
+            align-items: flex-start;
+            margin-bottom: -24px;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .phone-showcase img {
+        /* Кольца радара за телефоном */
+        .radar-ring {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 15, 66, 0.22);
+            pointer-events: none;
+        }
+
+        .radar-ring-1 {
+            width: 260px;
+            height: 260px;
+            animation: radarPulse 4s ease-out infinite;
+        }
+
+        .radar-ring-2 {
+            width: 340px;
+            height: 340px;
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.07);
+            animation: spinSlow 28s linear infinite;
+        }
+
+        .phone-frame {
+            width: 310px;
+            max-width: 85vw;
+            position: relative;
+            z-index: 2;
+            mask-image: linear-gradient(to top, transparent 4%, black 38%, black 100%);
+            -webkit-mask-image: linear-gradient(to top, transparent 4%, black 38%, black 100%);
+            animation: phoneFloatIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .phone-frame img {
             width: 100%;
             height: auto;
             display: block;
-            filter: 
-                drop-shadow(0 25px 45px rgba(255, 7, 58, 0.22)) 
-                drop-shadow(0 10px 20px rgba(10, 13, 20, 0.08));
+            filter: drop-shadow(0 20px 50px rgba(255, 15, 66, 0.35));
         }
 
-        /* Слой контента и карточек */
-        .ui-overlay {
+        /* =========================================
+           КОНТЕНТНАЯ BENTO-ПАНЕЛЬ
+           ========================================= */
+        .bento-content {
             width: 100%;
             position: relative;
             z-index: 3;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-top: 230px; /* Отступ под экран телефона на мобильных */
-        }
-
-        /* Статус-бейдж над шапкой */
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.95);
-            box-shadow: 0 8px 20px -4px rgba(255, 7, 58, 0.15), 0 2px 6px rgba(0, 0, 0, 0.04);
-            margin-bottom: 12px;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.01em;
-            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background-color: #10B981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-            animation: pulseDot 2s infinite;
-        }
-
-        /* Шапка бренда (Liquid Glass Pro) */
-        .header-card {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 22px;
-            border-radius: 30px;
-            margin-bottom: 14px;
-            position: relative;
-            overflow: hidden;
-
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.90) 0%, 
-                rgba(255, 255, 255, 0.65) 50%, 
-                rgba(255, 255, 255, 0.82) 100%
-            );
-            backdrop-filter: blur(36px) saturate(200%);
-            -webkit-backdrop-filter: blur(36px) saturate(200%);
-
-            border: 1.5px solid rgba(255, 255, 255, 0.9);
-            border-top: 2px solid #FFFFFF;
-            border-bottom: 1.5px solid rgba(255, 255, 255, 0.55);
-
-            box-shadow: 
-                0 22px 44px -12px rgba(255, 50, 90, 0.18),
-                0 10px 20px -6px rgba(10, 13, 20, 0.04),
-                inset 0 2px 3px 0 rgba(255, 255, 255, 1),
-                inset 0 -2px 3px 0 rgba(255, 190, 205, 0.25);
-
-            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
-        }
-
-        .logo-wrap {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 13px;
-            margin-bottom: 6px;
-        }
-
-        /* Объемная иконка для белого логотипа logo1.png */
-        .apple-app-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-            background: linear-gradient(145deg, #FF2452 0%, #D10026 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            position: relative;
-            border: 1.5px solid rgba(255, 255, 255, 0.55);
-            box-shadow: 
-                0 12px 24px -4px rgba(229, 9, 48, 0.5),
-                0 4px 10px -2px rgba(229, 9, 48, 0.3),
-                inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.75),
-                inset 0 -2px 3px 0 rgba(0, 0, 0, 0.25);
-        }
-
-        .brand-logo-img {
-            width: 26px;
-            height: 26px;
-            object-fit: contain;
-            display: block;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-        }
-
-        .title {
-            font-size: 27px;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            text-transform: uppercase;
-            background: linear-gradient(180deg, #FF1A45 0%, #C80024 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 12px rgba(255, 7, 58, 0.2));
-        }
-
-        .subtitle {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            letter-spacing: -0.01em;
-        }
-
-        /* Группа кнопок */
-        .buttons-group {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
             gap: 12px;
         }
 
-        /* Карточки-кнопки (Liquid Glass) */
-        .liquid-glass-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 18px;
-            border-radius: 26px;
-            text-decoration: none;
+        /* 1. ГЛАВНАЯ КАРТОЧКА БРЕНДА */
+        .brand-bento-card {
+            width: 100%;
+            background: linear-gradient(165deg, rgba(28, 31, 44, 0.85) 0%, rgba(14, 16, 23, 0.92) 100%);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 28px;
+            padding: 22px 20px 18px;
+            box-shadow: 
+                0 24px 48px -12px rgba(0, 0, 0, 0.7),
+                0 0 35px -10px rgba(255, 15, 66, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
             position: relative;
             overflow: hidden;
-
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.88) 0%, 
-                rgba(255, 255, 255, 0.58) 50%, 
-                rgba(255, 255, 255, 0.76) 100%
-            );
-            backdrop-filter: blur(32px) saturate(200%);
-            -webkit-backdrop-filter: blur(32px) saturate(200%);
-
-            border: 1.5px solid rgba(255, 255, 255, 0.88);
-            border-top: 2px solid #FFFFFF;
-            border-bottom: 1.5px solid rgba(255, 255, 255, 0.5);
-
-            box-shadow: 
-                0 18px 36px -10px rgba(255, 70, 105, 0.16),
-                0 10px 20px -6px rgba(10, 13, 20, 0.04),
-                inset 0 2px 2.5px 0 rgba(255, 255, 255, 1),
-                inset 0 -1.5px 2.5px 0 rgba(255, 200, 215, 0.28);
-
-            transition: 
-                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s ease;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
         }
 
-        .liquid-glass-card:nth-child(1) { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards; }
-        .liquid-glass-card:nth-child(2) { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards; }
-        .liquid-glass-card:nth-child(3) { animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards; }
-
-        /* Акцент на первой главной кнопке (Бот) */
-        .liquid-glass-card.primary-card {
-            background: linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.95) 0%, 
-                rgba(255, 240, 244, 0.75) 50%, 
-                rgba(255, 255, 255, 0.90) 100%
-            );
-            border-color: rgba(255, 180, 195, 0.65);
-            border-top-color: #FFFFFF;
-            box-shadow: 
-                0 20px 40px -10px rgba(255, 7, 58, 0.24),
-                0 10px 20px -6px rgba(10, 13, 20, 0.05),
-                inset 0 2px 3px 0 #FFFFFF;
-        }
-
-        /* Блик при наведении (для ПК) */
-        .liquid-glass-card::before {
+        /* Внутренний неоновый блик в углу шапки */
+        .brand-bento-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-            transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            top: -50px;
+            right: -50px;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255, 15, 66, 0.35) 0%, transparent 70%);
+            filter: blur(20px);
             pointer-events: none;
         }
 
-        .liquid-glass-card:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 
-                0 24px 44px -10px rgba(255, 40, 85, 0.25),
-                0 12px 24px -6px rgba(10, 13, 20, 0.06),
-                inset 0 2px 3px 0 #FFFFFF;
+        /* Верхняя строка шапки: Статус сети */
+        .network-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .liquid-glass-card:hover::before {
-            left: 150%;
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #10B981;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 4px 10px;
+            border-radius: 100px;
         }
 
-        .liquid-glass-card:active {
-            transform: scale(0.975);
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10B981;
+            box-shadow: 0 0 8px #10B981;
+            animation: blink 2s infinite;
         }
 
-        .card-left {
+        .protocol-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        /* Блок Логотип + Название */
+        .brand-identity {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 14px;
         }
 
-        /* Капсула иконки */
-        .icon-lens {
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(145deg, #FFFFFF 0%, #FFF0F3 100%);
+        /* 3D-капсула для белого логотипа logo.png */
+        .logo-vault {
+            width: 54px;
+            height: 54px;
             border-radius: 16px;
+            background: linear-gradient(135deg, #FF1B4B 0%, #B80028 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.95);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.45);
             box-shadow: 
-                0 8px 18px -4px rgba(255, 7, 58, 0.18),
-                inset 0 1.5px 1.5px #FFFFFF,
-                inset 0 -1px 2px rgba(255, 7, 58, 0.08);
+                0 10px 25px -4px rgba(255, 15, 66, 0.65),
+                inset 0 2px 3px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-vault img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
+        }
+
+        .brand-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(255, 15, 66, 0.4);
+        }
+
+        .brand-title span {
+            color: var(--brand-bright);
+        }
+
+        /* Новый текст описания */
+        .brand-description {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.45;
+            color: #D5DCE6;
+            margin-bottom: 16px;
+        }
+
+        /* Мини-бейджи преимуществ (Bento Pills) */
+        .feature-chips {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .chip svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--brand-bright);
+            stroke-width: 2.2;
+            fill: none;
+        }
+
+        .chip span {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #B8C2D1;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           КНОПКИ-КАРТОЧКИ (BENTO LINKS)
+           ========================================= */
+        .links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .bento-link-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            border-radius: 24px;
+            text-decoration: none;
+            background: var(--bg-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .bento-link-card:nth-child(1) { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards; }
+        .bento-link-card:nth-child(2) { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards; }
+        .bento-link-card:nth-child(3) { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards; }
+
+        /* Интерактивное свечение за курсором мыши */
+        .bento-link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 15, 66, 0.16), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .bento-link-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Акцентная карточка №1: НАШ БОТ */
+        .bento-link-card.hero-bot-card {
+            background: linear-gradient(135deg, rgba(255, 15, 66, 0.22) 0%, rgba(22, 24, 34, 0.92) 65%);
+            border: 1px solid rgba(255, 46, 91, 0.45);
+            box-shadow: 
+                0 18px 40px -10px rgba(255, 15, 66, 0.32),
+                inset 0 1px 1px rgba(255, 255, 255, 0.25);
+        }
+
+        /* Автоматический световой блик на главной кнопке бота */
+        .hero-bot-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+            transform: skewX(-25deg);
+            animation: sheenSweep 4.5s infinite;
+            pointer-events: none;
+        }
+
+        .bento-link-card:hover {
+            transform: translateY(-3px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .bento-link-card.hero-bot-card:hover {
+            border-color: rgba(255, 46, 91, 0.8);
+            box-shadow: 0 22px 45px -8px rgba(255, 15, 66, 0.45);
+        }
+
+        .bento-link-card:active {
+            transform: scale(0.98);
+        }
+
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Иконка внутри кнопки */
+        .link-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
             transition: transform 0.25s ease, background 0.25s ease;
         }
 
-        .primary-card .icon-lens {
-            background: linear-gradient(145deg, #FF1E4A 0%, #D6002A 100%);
+        .hero-bot-card .link-icon-box {
+            background: linear-gradient(135deg, #FF1A4B 0%, #C4002B 100%);
             border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                0 10px 20px -4px rgba(255, 7, 58, 0.4),
-                inset 0 1.5px 2px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 20px -4px rgba(255, 15, 66, 0.6);
         }
 
-        .icon-lens svg {
+        .link-icon-box svg {
             width: 22px;
             height: 22px;
-            stroke: var(--brand);
+            stroke: var(--brand-bright);
+            stroke-width: 2.1;
             fill: none;
-            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
 
-        .primary-card .icon-lens svg {
+        .hero-bot-card .link-icon-box svg {
             stroke: #FFFFFF;
         }
 
-        .primary-card .icon-lens svg circle {
+        .hero-bot-card .link-icon-box svg circle {
             fill: #FFFFFF;
         }
 
-        .card-text {
+        .link-info {
             display: flex;
             flex-direction: column;
             gap: 3px;
         }
 
-        .card-title-row {
+        .link-title-line {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .card-title {
-            font-size: 15px;
-            font-weight: 900;
-            letter-spacing: -0.01em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-        }
-
-        .badge-hot {
-            font-size: 10px;
+        .link-title {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 14px;
             font-weight: 800;
-            text-transform: uppercase;
-            padding: 2px 7px;
-            border-radius: 6px;
-            background: rgba(255, 7, 58, 0.12);
-            color: var(--brand);
-            letter-spacing: 0.02em;
+            color: #FFFFFF;
+            letter-spacing: 0.01em;
         }
 
-        .card-sub {
+        .link-handle {
             font-size: 12.5px;
             font-weight: 600;
-            color: var(--text-secondary);
-            letter-spacing: -0.01em;
+            color: var(--text-muted);
         }
 
-        /* Правая стрелочка в кружке */
-        .action-arrow {
-            width: 32px;
-            height: 32px;
+        /* Правая часть карточки (Кнопка/Стрелка) */
+        .link-action {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+
+        .cta-pill {
+            background: #FFFFFF;
+            color: #06070B;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 8px 14px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .hero-bot-card:hover .cta-pill {
+            background: var(--brand-bright);
+            color: #FFFFFF;
+            transform: scale(1.04);
+        }
+
+        .arrow-circle {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: rgba(255, 7, 58, 0.07);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.25s ease, transform 0.25s ease;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
 
-        .chevron {
-            stroke: var(--brand);
-            stroke-width: 2.6;
+        .arrow-circle svg {
+            stroke: #FFFFFF;
+            stroke-width: 2.4;
+            fill: none;
             stroke-linecap: round;
             stroke-linejoin: round;
-            fill: none;
-            transition: transform 0.2s ease, stroke 0.2s ease;
+            transition: transform 0.2s ease;
         }
 
-        .liquid-glass-card:hover .action-arrow {
+        .bento-link-card:hover .arrow-circle {
             background: var(--brand);
+            border-color: var(--brand-bright);
             transform: scale(1.06);
         }
 
-        .liquid-glass-card:hover .chevron {
-            stroke: #FFFFFF;
-            transform: translateX(1px);
+        .bento-link-card:hover .arrow-circle svg {
+            transform: translateX(2px);
         }
 
         /* Анимации */
-        @keyframes phoneReveal {
-            0% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(45px) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0) scale(1);
-            }
+        @keyframes phoneFloatIn {
+            0% { opacity: 0; transform: translateY(40px) scale(0.94); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        @keyframes slideUpFade {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulseDot {
-            0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
-            50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.05); }
+        @keyframes radarPulse {
+            0% { transform: translateX(-50%) scale(0.85); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(1.35); opacity: 0; }
         }
 
-        @keyframes floatPhoneDesktop {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-14px) rotate(0.6deg); }
+        @keyframes spinSlow {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes sheenSweep {
+            0% { left: -120%; }
+            35%, 100% { left: 160%; }
+        }
+
+        @keyframes desktopPhoneLevitate {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-14px); }
         }
 
         /* =========================================================
-           ДЕСКТОПНАЯ ВЕРСИЯ (Широкие экраны, Ноутбуки, ПК)
+           ВЕРСИЯ ДЛЯ ПК И НОУТБУКОВ (Широкоформатный Bento-лендинг)
            ========================================================= */
-        @media (min-width: 880px) {
+        @media (min-width: 900px) {
             body {
                 padding: 40px 60px;
             }
 
-            .stage-wrapper {
-                max-width: 960px;
+            .bento-stage {
+                max-width: 1020px;
                 display: grid;
-                grid-template-columns: 1.05fr 0.95fr;
+                grid-template-columns: 1.08fr 0.92fr;
                 gap: 64px;
                 align-items: center;
             }
 
-            /* На ПК карточки слева, телефон справа */
-            .ui-overlay {
+            /* На ПК слева управление, справа — парящий смартфон с радаром */
+            .bento-content {
                 order: 1;
-                margin-top: 0;
-                align-items: flex-start;
+                gap: 16px;
             }
 
-            .phone-showcase {
+            .phone-portal {
                 order: 2;
-                position: relative;
-                top: auto;
-                left: auto;
-                transform: none;
-                width: 100%;
-                max-width: 410px;
-                justify-self: center;
-                /* Более мягкая маска снизу для ПК-презентации */
-                mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
-                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
-                animation: floatPhoneDesktop 6s ease-in-out infinite;
+                height: auto;
+                margin-bottom: 0;
+                align-items: center;
             }
 
-            /* Декоративный светящийся пьедестал за телефоном на ПК */
-            .phone-showcase::before {
-                content: '';
-                position: absolute;
+            .radar-ring {
                 top: 50%;
-                left: 50%;
                 transform: translate(-50%, -50%);
+            }
+
+            @keyframes radarPulseDesktop {
+                0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+                100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+            }
+
+            @keyframes spinSlowDesktop {
+                from { transform: translate(-50%, -50%) rotate(0deg); }
+                to { transform: translate(-50%, -50%) rotate(360deg); }
+            }
+
+            .radar-ring-1 {
                 width: 340px;
                 height: 340px;
-                border-radius: 50%;
-                background: radial-gradient(circle, rgba(255, 7, 58, 0.24) 0%, rgba(255, 7, 58, 0.05) 55%, transparent 75%);
-                z-index: -1;
-                filter: blur(25px);
+                animation: radarPulseDesktop 4s ease-out infinite;
             }
 
-            .header-card {
-                align-items: flex-start;
-                padding: 28px 30px;
-                margin-bottom: 18px;
+            .radar-ring-2 {
+                width: 440px;
+                height: 440px;
+                animation: spinSlowDesktop 30s linear infinite;
+            }
+
+            .phone-frame {
+                width: 380px;
+                max-width: 100%;
+                mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
+                animation: desktopPhoneLevitate 6s ease-in-out infinite;
+            }
+
+            .brand-bento-card {
+                padding: 28px 28px 24px;
                 border-radius: 32px;
             }
 
-            .logo-wrap {
-                gap: 16px;
-                margin-bottom: 10px;
-            }
-
-            .apple-app-icon {
-                width: 54px;
-                height: 54px;
-                border-radius: 16px;
-            }
-
-            .brand-logo-img {
-                width: 30px;
-                height: 30px;
-            }
-
-            .title {
-                font-size: 34px;
-            }
-
-            .subtitle {
-                font-size: 15.5px;
-            }
-
-            .buttons-group {
-                gap: 14px;
-            }
-
-            .liquid-glass-card {
-                padding: 18px 22px;
-                border-radius: 28px;
-            }
-
-            .icon-lens {
-                width: 50px;
-                height: 50px;
+            .logo-vault {
+                width: 62px;
+                height: 62px;
                 border-radius: 18px;
             }
 
-            .card-title {
-                font-size: 16px;
+            .logo-vault img {
+                width: 34px;
+                height: 34px;
             }
 
-            .card-sub {
-                font-size: 13.5px;
+            .brand-title {
+                font-size: 30px;
+            }
+
+            .brand-description {
+                font-size: 15.5px;
+                margin-bottom: 20px;
+            }
+
+            .chip {
+                padding: 10px 10px;
+                flex-direction: row;
+                gap: 7px;
+            }
+
+            .chip span {
+                font-size: 12px;
+            }
+
+            .links-stack {
+                gap: 12px;
+            }
+
+            .bento-link-card {
+                padding: 18px 22px;
+                border-radius: 26px;
+            }
+
+            .link-title {
+                font-size: 15px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Тонкая архитектурная сетка и атмосферное свечение -->
-    <div class="bg-grid" aria-hidden="true"></div>
-    <div class="ambient-orb-1" aria-hidden="true"></div>
-    <div class="ambient-orb-2" aria-hidden="true"></div>
+    <!-- Атмосферный кибер-фон -->
+    <div class="cyber-grid" aria-hidden="true"></div>
+    <div class="glow-top" aria-hidden="true"></div>
+    <div class="glow-bottom" aria-hidden="true"></div>
 
-    <div class="stage-wrapper">
+    <div class="bento-stage">
         
-        <!-- Мокап смартфона с нашим ботом (logo2.png) -->
-        <div class="phone-showcase" aria-hidden="true">
-            <img src="logo2.png" alt="ALPAN VPN в Telegram">
+        <!-- Мокап смартфона с нашим ботом (logo2.png) и кольцами радара -->
+        <div class="phone-portal" aria-hidden="true">
+            <div class="radar-ring radar-ring-1"></div>
+            <div class="radar-ring radar-ring-2"></div>
+            <div class="phone-frame">
+                <img src="logo2.png" alt="Интерфейс бота ALPAN VPN">
+            </div>
         </div>
 
-        <!-- Интерфейсный блок Liquid Glass -->
-        <main class="ui-overlay">
+        <!-- Основной Bento-контент -->
+        <main class="bento-content">
             
-            <!-- Статус работы -->
-            <div class="status-pill">
-                <span class="status-dot"></span>
-                <span>Высокая скорость • Без лимитов</span>
-            </div>
-
-            <!-- Главная карточка бренда с белым логотипом (logo1.png) -->
-            <header class="header-card">
-                <div class="logo-wrap">
-                    <div class="apple-app-icon">
-                        <img src="logo1.png" alt="ALPAN Logo" class="brand-logo-img">
+            <!-- Шапка бренда -->
+            <header class="brand-bento-card">
+                <div class="network-status-bar">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>Сеть активна</span>
                     </div>
-                    <h1 class="title">ALPAN VPN</h1>
+                    <span class="protocol-tag">VLESS / Reality</span>
                 </div>
-                <p class="subtitle">Лучший впн в Дагестане.</p>
+
+                <div class="brand-identity">
+                    <!-- Белый логотип без фона logo.png -->
+                    <div class="logo-vault">
+                        <img src="logo.png" alt="ALPAN VPN">
+                    </div>
+                    <div class="brand-title-group">
+                        <h1 class="brand-title">ALPAN <span>VPN</span></h1>
+                    </div>
+                </div>
+
+                <p class="brand-description">
+                    Стабильно рабочие обходы глушилок и легкое подключение.
+                </p>
+
+                <!-- Преимущества -->
+                <div class="feature-chips">
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span>Анти-глушилки</span>
+                    </div>
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        <span>В 1 клик</span>
+                    </div>
+                    <div class="chip">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        </svg>
+                        <span>Без потерь</span>
+                    </div>
+                </div>
             </header>
 
-            <!-- Кнопки-переходники -->
-            <div class="buttons-group">
+            <!-- Стек ссылок -->
+            <div class="links-stack">
                 
-                <!-- 1. НАШ БОТ (Акцентная карточка) -->
-                <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="liquid-glass-card primary-card">
-                    <div class="card-left">
-                        <div class="icon-lens">
+                <!-- 1. НАШ БОТ -->
+                <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="bento-link-card hero-bot-card">
+                    <div class="link-left">
+                        <div class="link-icon-box">
                             <svg viewBox="0 0 24 24">
                                 <rect x="3" y="11" width="18" height="10" rx="4"></rect>
                                 <circle cx="9" cy="16" r="1.5"></circle>
@@ -653,60 +792,66 @@
                                 <line x1="16" y1="2" x2="16" y2="4"></line>
                             </svg>
                         </div>
-                        <div class="card-text">
-                            <div class="card-title-row">
-                                <span class="card-title">НАШ БОТ</span>
-                                <span class="badge-hot">Подключить</span>
+                        <div class="link-info">
+                            <div class="link-title-line">
+                                <span class="link-title">НАШ БОТ</span>
                             </div>
-                            <span class="card-sub">t.me/AlpanVPNrobot</span>
+                            <span class="link-handle">t.me/AlpanVPNrobot</span>
                         </div>
                     </div>
-                    <div class="action-arrow">
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
+                    <div class="link-action">
+                        <span class="cta-pill">
+                            Подключить
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </span>
                     </div>
                 </a>
 
                 <!-- 2. НАШ КАНАЛ -->
-                <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="liquid-glass-card">
-                    <div class="card-left">
-                        <div class="icon-lens">
+                <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="bento-link-card">
+                    <div class="link-left">
+                        <div class="link-icon-box">
                             <svg viewBox="0 0 24 24">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg>
                         </div>
-                        <div class="card-text">
-                            <span class="card-title">НАШ КАНАЛ</span>
-                            <span class="card-sub">t.me/alpanvpn</span>
+                        <div class="link-info">
+                            <span class="link-title">НАШ КАНАЛ</span>
+                            <span class="link-handle">t.me/alpanvpn</span>
                         </div>
                     </div>
-                    <div class="action-arrow">
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
+                    <div class="link-action">
+                        <div class="arrow-circle">
+                            <svg width="16" height="16" viewBox="0 0 24 24">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
                     </div>
                 </a>
 
                 <!-- 3. ПОДДЕРЖКА -->
-                <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="liquid-glass-card">
-                    <div class="card-left">
-                        <div class="icon-lens">
+                <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="bento-link-card">
+                    <div class="link-left">
+                        <div class="link-icon-box">
                             <svg viewBox="0 0 24 24">
                                 <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
                                 <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
                             </svg>
                         </div>
-                        <div class="card-text">
-                            <span class="card-title">ПОДДЕРЖКА</span>
-                            <span class="card-sub">t.me/AlpanSupport</span>
+                        <div class="link-info">
+                            <span class="link-title">ПОДДЕРЖКА</span>
+                            <span class="link-handle">t.me/AlpanSupport</span>
                         </div>
                     </div>
-                    <div class="action-arrow">
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
+                    <div class="link-action">
+                        <div class="arrow-circle">
+                            <svg width="16" height="16" viewBox="0 0 24 24">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
                     </div>
                 </a>
 
@@ -714,5 +859,17 @@
         </main>
     </div>
 
+    <!-- Скрипт для интерактивного свечения карточек за курсором на ПК -->
+    <script>
+        document.querySelectorAll('.bento-link-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 </body>
 </html>
