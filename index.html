@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALPAN VPN — Стабильный обход глушилок и белых списков</title>
-    <meta name="description" content="Свободный доступ без ограничений. Обход глушилок и белых списков, безлимитный трафик, работа с Gemini и Claude, подключение через Happ на телефонах, ПК и ТВ. 5 дней бесплатно!">
+    <title>ALPAN VPN — Свободный доступ без ограничений</title>
+    <meta name="description" content="Стабильный обход глушилок и белых списков. Безлимитный трафик, работа с Gemini и Claude, подключение через Happ на телефонах, ПК и ТВ. 5 дней бесплатно!">
 
-    <!-- Шрифты: Inter + Manrope + Instrument Serif (курсивный акцент со 2-го референса) -->
+    <!-- Шрифты: Inter + Manrope + Instrument Serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-void: #040203;
-            --bg-frame: #080406;
+            --bg-void: #000000;
+            --bg-frame: rgba(7, 3, 5, 0.82);
             --crimson-core: #FF1240;
-            --crimson-bright: #FF3860;
-            --crimson-deep: #8A001D;
-            --crimson-glow: rgba(255, 18, 64, 0.42);
-            --glass-surface: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.11);
-            --glass-highlight: rgba(255, 255, 255, 0.24);
+            --crimson-bright: #FF3B63;
+            --crimson-deep: #7A0019;
+            --crimson-glow: rgba(255, 18, 64, 0.45);
+            --glass-surface: rgba(255, 255, 255, 0.045);
+            --glass-border: rgba(255, 255, 255, 0.12);
             --text-white: #F9FAFB;
-            --text-secondary: rgba(255, 255, 255, 0.65);
-            --text-muted: rgba(255, 255, 255, 0.42);
+            --text-secondary: rgba(255, 255, 255, 0.68);
+            --text-muted: rgba(255, 255, 255, 0.45);
+            --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -46,99 +46,145 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 14px;
+            padding: 10px;
             position: relative;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
         /* =========================================================
-           ФОНОВЫЕ ЭФФЕКТЫ (СЕТКА И ЛУЧИ КАК НА РЕФЕРЕНСАХ 1 И 2)
+           1. СЕКУНДНЫЙ ЧЕРНЫЙ ПРЕЛОАДЕР С ЛОГОТИПОМ И ЗВУКОМ
            ========================================================= */
-        .ambient-backdrop {
+        .space-intro-loader {
             position: fixed;
             inset: 0;
-            background: 
-                radial-gradient(circle at 18% 15%, rgba(200, 0, 42, 0.24) 0%, transparent 45%),
-                radial-gradient(circle at 85% 80%, rgba(255, 18, 64, 0.16) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            background: #000000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            transition: opacity 0.65s var(--apple-ease), transform 0.65s var(--apple-ease), visibility 0.65s;
         }
 
-        .outer-orbit {
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 94vw;
-            max-width: 1220px;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 18, 64, 0.1);
+        .space-intro-loader.is-hidden {
+            opacity: 0;
+            transform: scale(1.08);
+            visibility: hidden;
             pointer-events: none;
-            z-index: 0;
+        }
+
+        .intro-logo-wrap {
+            position: relative;
+            width: 82px;
+            height: 82px;
+            border-radius: 26px;
+            background: radial-gradient(circle at 50% 30%, rgba(255, 18, 64, 0.35), rgba(15, 2, 6, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(255, 18, 64, 0.6);
+            animation: introLogoPop 1s var(--apple-ease) forwards;
+        }
+
+        .intro-logo-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 18, 64, 0.5);
+            animation: introShockwave 1s ease-out forwards;
+        }
+
+        .intro-logo-wrap img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+        }
+
+        .intro-boot-text {
+            font-family: 'Manrope', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.65);
+            animation: fadeInOut 1s ease forwards;
         }
 
         /* =========================================================
-           ГЛАВНЫЙ КОНТЕЙНЕР-РАМКА (ТЕПЕРЬ ПРОДОЛЖАЕТСЯ ВНИЗ)
+           2. КОСМИЧЕСКИЙ ФОН С ЛЕТЯЩИМИ ЗВЕЗДАМИ (CANVAS)
+           ========================================================= */
+        #starfieldCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-nebula {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 18%, rgba(210, 0, 45, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 82% 75%, rgba(255, 18, 64, 0.16) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(90, 0, 22, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        body.space-ready .cosmic-nebula {
+            opacity: 1;
+        }
+
+        /* =========================================================
+           ГЛАВНОЕ ОКНО САЙТА (КОМПАКТНЫЕ ОТСТУПЫ)
            ========================================================= */
         .showcase-window {
             width: 100%;
-            max-width: 1120px;
+            max-width: 1060px;
             background: 
-                radial-gradient(ellipse 75% 38% at 35% 12%, rgba(175, 5, 40, 0.34) 0%, rgba(45, 3, 14, 0.18) 55%, transparent 100%),
+                radial-gradient(ellipse 80% 35% at 50% 12%, rgba(165, 5, 38, 0.28) 0%, rgba(25, 2, 8, 0.15) 60%, transparent 100%),
                 var(--bg-frame);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.13);
-            border-radius: 32px;
+            border-radius: 30px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 20px 18px 36px;
+            padding: 14px 14px 24px;
             box-shadow: 
-                0 30px 90px rgba(0, 0, 0, 0.9),
-                0 0 85px -20px rgba(255, 18, 64, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.18);
+                0 30px 90px rgba(0, 0, 0, 0.92),
+                0 0 70px -20px rgba(255, 18, 64, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.16);
         }
 
-        /* Дизайнерская сетка с точками на пересечениях (с 1-го референса) */
+        /* Тонкая космическая сетка */
         .cyber-grid-overlay {
             position: absolute;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 64px 64px;
-            mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, black 20%, transparent 90%);
-            -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, black 20%, transparent 90%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Вертикальные неоновые лучи сверху справа (с 1-го референса) */
-        .fluted-light-rays {
-            position: absolute;
-            top: -40px;
-            right: -20px;
-            width: 340px;
-            height: 360px;
-            background: repeating-linear-gradient(
-                90deg,
-                rgba(255, 18, 64, 0.0) 0px,
-                rgba(255, 18, 64, 0.16) 14px,
-                rgba(255, 120, 150, 0.26) 20px,
-                rgba(255, 18, 64, 0.02) 28px
-            );
-            filter: blur(8px);
-            mask-image: radial-gradient(circle at 80% 10%, black 0%, transparent 72%);
-            -webkit-mask-image: radial-gradient(circle at 80% 10%, black 0%, transparent 72%);
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 85%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 85%);
             pointer-events: none;
             z-index: 0;
         }
 
         /* =========================================================
-           1. ВЕРХНЯЯ СТЕКЛЯННАЯ КАПСУЛА (FLOATING TOP PILL)
+           ВЕРХНЯЯ КАПСУЛА НАВИГАЦИИ
            ========================================================= */
         .top-pill-wrapper {
             width: 100%;
@@ -146,71 +192,58 @@
             justify-content: center;
             position: relative;
             z-index: 10;
+            margin-bottom: 8px;
         }
 
         .floating-nav-pill {
             display: inline-flex;
             align-items: center;
-            gap: 16px;
-            padding: 8px 18px 8px 10px;
+            gap: 12px;
+            padding: 6px 14px 6px 8px;
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.065);
+            background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(24px) saturate(160%);
             -webkit-backdrop-filter: blur(24px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 
-                0 12px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            animation: dropDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .nav-logo-circle {
-            width: 34px;
-            height: 34px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.32), rgba(255, 255, 255, 0.06));
+            background: linear-gradient(135deg, rgba(255, 18, 64, 0.35), rgba(255, 255, 255, 0.06));
             border: 1px solid rgba(255, 255, 255, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 16px rgba(255, 18, 64, 0.35);
-            overflow: hidden;
+            box-shadow: 0 0 14px rgba(255, 18, 64, 0.4);
         }
 
         .nav-logo-circle img {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             object-fit: contain;
-            display: block;
         }
 
         .nav-brand-name {
             font-family: 'Manrope', sans-serif;
             font-weight: 800;
-            font-size: 13.5px;
+            font-size: 12.5px;
             letter-spacing: 0.04em;
             color: #FFFFFF;
         }
 
         .nav-divider {
             width: 1px;
-            height: 16px;
+            height: 14px;
             background: rgba(255, 255, 255, 0.14);
-        }
-
-        .nav-tags {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
         }
 
         .nav-live-indicator {
@@ -218,6 +251,7 @@
             align-items: center;
             gap: 6px;
             color: #FFFFFF;
+            font-size: 11.5px;
             font-weight: 600;
         }
 
@@ -231,189 +265,157 @@
         }
 
         /* =========================================================
-           2. ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН + 3 КНОПКИ
+           3. ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН В СТИЛЕ РЕФЕРЕНСА ZERO + ЗАГОЛОВОК ПОВЕРХ + 3 КНОПКИ
            ========================================================= */
         .hero-section {
-            min-height: calc(100vh - 115px);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            align-items: center;
             position: relative;
             z-index: 5;
-            padding-top: 8px;
-            padding-bottom: 18px;
-        }
-
-        .stage-grid {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: auto 0;
         }
 
-        /* ЗОНА ТЕЛЕФОНА + 3D-СФЕРА + СВЕТОВАЯ ЗВЕЗДА НА ГРАНИ */
-        .visual-centerpiece {
+        /* Сцена в стиле постера ZERO: широкая капсула-подложка + диагональный телефон */
+        .zero-style-stage {
             position: relative;
             width: 100%;
-            height: 280px;
+            max-width: 560px;
+            height: 235px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: -34px;
-            pointer-events: none;
+            margin-top: 4px;
         }
 
-        .textured-3d-blob {
+        /* Широкая скругленная плашка позади телефона (как синий блок на картинке ZERO, но в космическом красном стиле) */
+        .zero-backdrop-card {
             position: absolute;
-            width: 270px;
-            height: 270px;
-            border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+            width: 100%;
+            height: 148px;
+            bottom: 18px;
+            border-radius: 26px;
             background: 
-                radial-gradient(circle at 30% 28%, rgba(255, 95, 125, 0.85) 0%, rgba(225, 10, 52, 0.75) 32%, rgba(95, 0, 22, 0.9) 70%, rgba(15, 0, 5, 0.95) 100%);
+                radial-gradient(circle at 75% 25%, rgba(255, 70, 110, 0.45) 0%, transparent 55%),
+                linear-gradient(135deg, rgba(165, 8, 42, 0.55) 0%, rgba(35, 3, 12, 0.78) 100%);
+            border: 1px solid rgba(255, 110, 140, 0.28);
             box-shadow: 
-                inset 12px 12px 34px rgba(255, 160, 180, 0.45),
-                inset -20px -24px 45px rgba(0, 0, 0, 0.85),
-                0 0 75px rgba(255, 18, 64, 0.42);
-            animation: morphBlob 12s ease-in-out infinite alternate;
+                0 20px 50px rgba(0, 0, 0, 0.75),
+                0 0 60px rgba(255, 18, 64, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.25);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 14px 18px;
             overflow: hidden;
+            z-index: 1;
         }
 
-        .textured-3d-blob::after {
+        /* Точечная космическая текстура внутри плашки */
+        .zero-backdrop-card::after {
             content: '';
             position: absolute;
             inset: 0;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.55) 1.25px, transparent 1.25px);
-            background-size: 6px 6px;
-            opacity: 0.65;
-            mix-blend-mode: overlay;
-        }
-
-        .tilted-phone {
-            position: relative;
-            z-index: 3;
-            width: 262px;
-            max-width: 75vw;
-            transform: perspective(1000px) rotate(-9deg) rotateY(8deg) rotateX(4deg);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            mask-image: linear-gradient(to top, transparent 2%, black 34%, black 100%);
-            -webkit-mask-image: linear-gradient(to top, transparent 2%, black 34%, black 100%);
-            animation: phoneEntrance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Звездный блик на верхней грани телефона (как на 1-м референсе) */
-        .phone-lens-flare {
-            position: absolute;
-            top: 4%;
-            left: 38%;
-            width: 28px;
-            height: 28px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+            background-size: 12px 12px;
+            opacity: 0.45;
             pointer-events: none;
-            z-index: 6;
-            background: radial-gradient(circle, #ffffff 0%, rgba(255, 80, 120, 0.8) 35%, transparent 70%);
-            animation: flarePulse 3s ease-in-out infinite;
         }
 
-        .phone-lens-flare::before,
-        .phone-lens-flare::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(90deg, transparent, #ffffff, transparent);
-        }
-
-        .phone-lens-flare::before {
-            width: 48px;
-            height: 1.5px;
-        }
-
-        .phone-lens-flare::after {
-            width: 1.5px;
-            height: 48px;
-        }
-
-        .tilted-phone img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: 
-                drop-shadow(-18px 28px 38px rgba(0, 0, 0, 0.85))
-                drop-shadow(0 0 30px rgba(255, 18, 64, 0.25));
-        }
-
-        /* БЛОК ЗАГОЛОВКА И 3 КНОПОК */
-        .interaction-dock {
-            width: 100%;
-            max-width: 445px;
+        .backdrop-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
-            z-index: 6;
+            z-index: 2;
+        }
+
+        .space-tag {
+            font-family: 'Manrope', sans-serif;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .free-pill-badge {
+            padding: 4px 10px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Manrope', sans-serif;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(255, 18, 64, 0.4);
+        }
+
+        .backdrop-bottom-brand {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            gap: 13px;
+            gap: 2px;
+            max-width: 42%;
         }
 
-        .hero-copy {
-            text-align: center;
-            margin-bottom: 2px;
-            padding: 0 6px;
-            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
-        }
-
-        /* 3D-плашка под наклоном + искры (как "Mobile ✦" на 1-м референсе) */
-        .promo-badge-row {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .tilted-3d-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 14px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255, 38, 82, 0.92) 0%, rgba(145, 0, 32, 0.95) 100%);
-            border: 1px solid rgba(255, 185, 200, 0.55);
-            box-shadow: 
-                0 8px 20px rgba(255, 18, 64, 0.4),
-                inset 0 2px 3px rgba(255, 255, 255, 0.45),
-                inset 0 -2px 4px rgba(80, 0, 15, 0.8);
-            transform: rotate(-3.5deg);
+        .backdrop-bottom-brand strong {
             font-family: 'Manrope', sans-serif;
-            font-size: 12px;
+            font-size: 15px;
             font-weight: 800;
             letter-spacing: 0.02em;
             color: #FFFFFF;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-            transition: transform 0.25s ease;
         }
 
-        .tilted-3d-badge:hover {
-            transform: rotate(0deg) scale(1.05);
+        .backdrop-bottom-brand span {
+            font-size: 10.5px;
+            line-height: 1.25;
+            color: rgba(255, 255, 255, 0.68);
         }
 
-        .sparkle-icons {
-            color: #FF8DA6;
-            display: inline-flex;
-            align-items: center;
-            filter: drop-shadow(0 0 8px rgba(255, 50, 95, 0.8));
-            animation: pulseGlow 2.4s infinite;
+        /* Сам телефон в точном диагональном наклоне как на референсе ZERO */
+        .zero-tilted-phone {
+            position: relative;
+            z-index: 3;
+            width: 196px;
+            transform: perspective(1000px) rotate(-25deg) rotateX(14deg) rotateY(10deg) translateY(-6px);
+            transition: transform 0.45s var(--apple-ease);
+            filter: 
+                drop-shadow(0 26px 32px rgba(0, 0, 0, 0.9))
+                drop-shadow(0 0 28px rgba(255, 18, 64, 0.35));
+        }
+
+        .zero-tilted-phone img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 24px;
+        }
+
+        /* ЗАГОЛОВОК СНИЗУ ТЕЛЕФОНА, ЧУТЬ-ЧУТЬ ПЕРЕКРЫВАЮЩИЙ ЕГО (Z-INDEX ВЫШЕ ТЕЛЕФОНА) */
+        .overlapping-title-block {
+            position: relative;
+            z-index: 6;
+            margin-top: -34px; /* Наезжает снизу на край телефона, но оставляет экран открытым */
+            text-align: center;
+            padding: 0 8px;
+            margin-bottom: 10px;
+            pointer-events: none;
         }
 
         .hero-heading {
             font-family: 'Manrope', sans-serif;
-            font-size: 29px;
+            font-size: 27px;
             font-weight: 800;
             letter-spacing: -0.035em;
-            line-height: 1.1;
+            line-height: 1.08;
             color: #FFFFFF;
-            margin-bottom: 10px;
-            background: linear-gradient(180deg, #FFFFFF 35%, rgba(255, 210, 220, 0.72) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-shadow: 
+                0 6px 22px rgba(0, 0, 0, 0.98),
+                0 2px 8px rgba(0, 0, 0, 0.95),
+                0 0 28px rgba(255, 18, 64, 0.45);
+            margin-bottom: 5px;
         }
 
         .hero-heading em {
@@ -421,72 +423,61 @@
             font-style: italic;
             font-weight: 400;
             font-size: 1.14em;
-            letter-spacing: -0.01em;
-            background: linear-gradient(180deg, #FFFFFF 20%, #FF6B8B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding-right: 4px;
+            color: #FF6B8B;
+            padding: 0 2px;
         }
 
         .hero-subtitle {
-            font-size: 14.5px;
+            font-size: 13px;
             font-weight: 400;
-            line-height: 1.5;
+            line-height: 1.38;
             color: var(--text-secondary);
-            letter-spacing: -0.01em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
         }
 
-        /* 1. ГЛАВНАЯ КАПСУЛА — НАШ БОТ */
+        /* БЛОК ИЗ 3 КНОПОК СНИЗУ (ВСЕ ВИДНЫ СРАЗУ, МАЛЕНЬКОЕ РАССТОЯНИЕ) */
+        .interaction-dock {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 7;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        /* Кнопка 1: Главный Telegram-бот */
         .waitlist-style-dock {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
-            padding: 16px 16px 16px 20px;
-            border-radius: 24px;
+            gap: 12px;
+            padding: 13px 14px 13px 16px;
+            border-radius: 20px;
             text-decoration: none;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.085) 0%, rgba(255, 255, 255, 0.03) 100%);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.035) 100%);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.6),
-                0 0 40px -10px rgba(255, 18, 64, 0.25),
+                0 16px 40px rgba(0, 0, 0, 0.65),
+                0 0 35px -10px rgba(255, 18, 64, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.25);
             position: relative;
             overflow: hidden;
-            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease, box-shadow 0.28s ease;
-            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
-        }
-
-        .waitlist-style-dock::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -10%;
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle, rgba(255, 18, 64, 0.3) 0%, transparent 70%);
-            pointer-events: none;
+            transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .waitlist-style-dock:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.32);
-            box-shadow: 
-                0 26px 60px rgba(0, 0, 0, 0.75),
-                0 0 50px -8px rgba(255, 18, 64, 0.42),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        }
-
-        .waitlist-style-dock:active {
-            transform: scale(0.985);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 45px -8px rgba(255, 18, 64, 0.45);
         }
 
         .dock-info {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             position: relative;
             z-index: 2;
         }
@@ -498,11 +489,11 @@
         }
 
         .tg-mini-badge {
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             border-radius: 6px;
-            background: rgba(255, 18, 64, 0.22);
-            border: 1px solid rgba(255, 18, 64, 0.48);
+            background: rgba(255, 18, 64, 0.24);
+            border: 1px solid rgba(255, 18, 64, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -511,17 +502,15 @@
 
         .dock-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 15.5px;
+            font-size: 14.5px;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: #FFFFFF;
         }
 
         .dock-sub {
-            font-size: 12.5px;
-            font-weight: 400;
+            font-size: 12px;
             color: var(--text-secondary);
-            letter-spacing: -0.01em;
         }
 
         .white-pill-btn {
@@ -529,67 +518,48 @@
             z-index: 2;
             background: #FFFFFF;
             color: #060609;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            padding: 12px 20px;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 10px 16px;
             border-radius: 100px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             white-space: nowrap;
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.22);
-            transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.24);
+            transition: transform 0.2s ease;
         }
 
         .waitlist-style-dock:hover .white-pill-btn {
-            background: #F3F4F6;
             transform: scale(1.03);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.35);
         }
 
-        .white-pill-btn svg {
-            transition: transform 0.22s ease;
-        }
-
-        .waitlist-style-dock:hover .white-pill-btn svg {
-            transform: translate(2px, -2px);
-        }
-
-        /* 2. ДВЕ НИЖНИЕ СТЕКЛЯННЫЕ ПЛИТКИ (КАНАЛ И ПОДДЕРЖКА) */
+        /* Кнопки 2 и 3: Наш канал и Поддержка */
         .secondary-bento-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+            gap: 9px;
         }
 
         .glass-tile {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 16px;
-            padding: 16px 18px;
-            border-radius: 22px;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.035);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.25s var(--apple-ease), background 0.25s ease, border-color 0.25s ease;
         }
 
         .glass-tile:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.065);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.07);
             border-color: rgba(255, 18, 64, 0.45);
-        }
-
-        .glass-tile:active {
-            transform: scale(0.98);
         }
 
         .tile-top {
@@ -599,154 +569,76 @@
         }
 
         .tile-orb-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.16), rgba(255, 255, 255, 0.03));
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 18, 64, 0.18), rgba(255, 255, 255, 0.03));
             border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FF335C;
-            transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
-        }
-
-        .glass-tile:hover .tile-orb-icon {
-            background: var(--crimson-core);
-            color: #FFFFFF;
-            border-color: rgba(255, 255, 255, 0.35);
+            color: #FF3B63;
         }
 
         .tile-corner-arrow {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
-            transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
-        }
-
-        .glass-tile:hover .tile-corner-arrow {
-            background: rgba(255, 255, 255, 0.14);
-            color: #FFFFFF;
-            transform: translate(2px, -2px);
         }
 
         .tile-bottom {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 1px;
         }
 
         .tile-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 14.5px;
+            font-size: 13.5px;
             font-weight: 700;
-            letter-spacing: -0.015em;
             color: #FFFFFF;
         }
 
         .tile-handle {
-            font-size: 12px;
-            font-weight: 400;
+            font-size: 11.5px;
             color: var(--text-muted);
-            letter-spacing: -0.01em;
-        }
-
-        /* Ненавязчивый индикатор скролла вниз */
-        .scroll-cue {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            margin-top: 22px;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: color 0.25s ease;
-        }
-
-        .scroll-cue:hover {
-            color: #FFFFFF;
-        }
-
-        .scroll-cue-arrow {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FF4D73;
-            animation: bounceDown 2s infinite;
         }
 
         /* =========================================================
-           3. СЕКЦИЯ-ПЕРЕХОД В СТИЛЕ РЕФЕРЕНСА 2 (LUMINA BRIDGE)
+           4. КОМПАКТНЫЙ КОСМИЧЕСКИЙ МОСТ (LUMINA CORE)
            ========================================================= */
         .lumina-bridge-section {
             position: relative;
             z-index: 5;
-            padding: 56px 12px 0;
+            padding: 26px 8px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* Горизонтальное неоновое свечение как на 2-м референсе */
         .horizon-glow-divider {
             width: 100%;
             height: 1px;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 18, 64, 0.55) 50%, transparent 100%);
-            position: relative;
-            margin-bottom: 52px;
-            box-shadow: 0 0 35px 2px rgba(255, 18, 64, 0.45);
-        }
-
-        .horizon-glow-divider::after {
-            content: '';
-            position: absolute;
-            top: -28px;
-            left: 15%;
-            right: 15%;
-            height: 56px;
-            background: radial-gradient(ellipse at center, rgba(255, 18, 64, 0.26) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .bridge-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 100px;
-            background: rgba(255, 18, 64, 0.1);
-            border: 1px solid rgba(255, 18, 64, 0.28);
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #FF7592;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 0 25px 1px rgba(255, 18, 64, 0.4);
         }
 
         .bridge-statement {
             font-family: 'Manrope', sans-serif;
-            font-size: 23px;
+            font-size: 19px;
             font-weight: 700;
-            line-height: 1.3;
-            letter-spacing: -0.025em;
-            max-width: 680px;
+            line-height: 1.28;
+            letter-spacing: -0.02em;
+            max-width: 580px;
             color: #FFFFFF;
-            margin-bottom: 36px;
+            margin-bottom: 18px;
         }
 
         .bridge-statement span.muted-part {
@@ -757,208 +649,98 @@
             font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 1.18em;
+            font-size: 1.16em;
             color: #FF4D73;
-            padding: 0 3px;
         }
 
-        /* Центральная 3D-иконка с логотипом и вертикальным лазером вниз (1 в 1 со 2-го референса) */
         .core-node-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
 
         .core-squircle-icon {
-            width: 74px;
-            height: 74px;
-            border-radius: 22px;
+            width: 56px;
+            height: 56px;
+            border-radius: 17px;
             background: linear-gradient(145deg, #1b050a 0%, #090204 100%);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 
-                0 20px 45px rgba(0, 0, 0, 0.85),
-                0 0 45px rgba(255, 18, 64, 0.42),
-                inset 0 2px 4px rgba(255, 255, 255, 0.22),
-                inset 0 -4px 10px rgba(255, 18, 64, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 18, 64, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 3;
             animation: floatIcon 4s ease-in-out infinite;
         }
 
-        .core-squircle-icon::before {
-            content: '';
-            position: absolute;
-            inset: 5px;
-            border-radius: 17px;
-            background: radial-gradient(circle at 50% 30%, rgba(255, 18, 64, 0.38), transparent 75%);
-            border: 1px solid rgba(255, 18, 64, 0.25);
-            pointer-events: none;
-        }
-
         .core-squircle-icon img {
-            width: 38px;
-            height: 38px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
-            position: relative;
-            z-index: 2;
         }
 
-        /* Вертикальный лазерный луч, идущий от иконки к Bento-сетке */
         .laser-stem {
             width: 2px;
-            height: 78px;
-            background: linear-gradient(180deg, rgba(255, 18, 64, 0.9) 0%, rgba(255, 255, 255, 0.85) 100%);
-            box-shadow: 0 0 16px #FF1240;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .laser-stem::after {
-            content: '';
-            position: absolute;
-            top: -30px;
-            left: 0;
-            width: 100%;
-            height: 30px;
-            background: linear-gradient(180deg, transparent, #ffffff, transparent);
-            animation: laserDrop 2s linear infinite;
-        }
-
-        .laser-junction-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #FFFFFF;
-            box-shadow: 0 0 16px 4px #FF1240;
-            margin-bottom: -4px;
-            position: relative;
-            z-index: 4;
+            height: 38px;
+            background: linear-gradient(180deg, rgba(255, 18, 64, 0.9) 0%, #FFFFFF 100%);
+            box-shadow: 0 0 14px #FF1240;
         }
 
         /* =========================================================
-           4. BENTO-СЕТКА «ПОЧЕМУ МЫ» (МОУШН-КАРТОЧКИ)
+           5. РОВНО 3 ЕМКИЕ ПЛАШКИ (МАКСИМУМ ИНФОРМАЦИИ ВНУТРИ)
            ========================================================= */
         .bento-showcase-container {
             position: relative;
             z-index: 5;
             width: 100%;
-            border-top: 1px solid rgba(255, 255, 255, 0.16);
-            padding-top: 32px;
-            margin-top: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 20px;
         }
 
-        /* Светящийся центр на линии разветвления (как на скрине Lumina) */
         .bento-showcase-container::before {
             content: '';
             position: absolute;
             top: -1px;
             left: 50%;
             transform: translateX(-50%);
-            width: 260px;
+            width: 220px;
             height: 2px;
             background: linear-gradient(90deg, transparent, #FFFFFF, #FF1240, #FFFFFF, transparent);
-            box-shadow: 0 0 25px #FF1240;
+            box-shadow: 0 0 20px #FF1240;
         }
 
-        .section-header-bar {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-
-        .section-tag-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 5px 12px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-
-        .section-tag-pill span {
-            width: 6px;
-            height: 6px;
-            border-radius: 2px;
-            background: var(--crimson-core);
-            box-shadow: 0 0 8px var(--crimson-core);
-        }
-
-        .section-main-title {
-            font-family: 'Manrope', sans-serif;
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            color: #FFFFFF;
-        }
-
-        .section-main-title span {
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        /* Сама сетка Bento */
-        .bento-grid {
+        .bento-grid-three {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 14px;
+            gap: 12px;
         }
 
         .bento-card {
             position: relative;
-            border-radius: 26px;
-            padding: 24px 22px;
+            border-radius: 22px;
+            padding: 18px 18px;
             background: 
-                radial-gradient(450px circle at var(--mouse-x, 50%) var(--mouse-y, 0%), rgba(255, 18, 64, 0.14), transparent 40%),
-                rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.09);
+                radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 0%), rgba(255, 18, 64, 0.15), transparent 45%),
+                rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            gap: 20px;
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
-        }
-
-        /* Точечная матрица внутри карточек (как на референсе 2) */
-        .bento-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 16px 16px;
-            mask-image: linear-gradient(180deg, black 0%, transparent 75%);
-            -webkit-mask-image: linear-gradient(180deg, black 0%, transparent 75%);
-            pointer-events: none;
-            z-index: 0;
+            gap: 12px;
+            transition: transform 0.35s var(--apple-ease), border-color 0.35s ease;
         }
 
         .bento-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 18, 64, 0.42);
-            box-shadow: 
-                0 22px 48px rgba(0, 0, 0, 0.65),
-                0 0 35px -10px rgba(255, 18, 64, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.22);
+            transform: translateY(-3px);
+            border-color: rgba(255, 18, 64, 0.45);
         }
 
-        .bento-visual, .bento-content {
-            position: relative;
-            z-index: 2;
+        .bento-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .bento-badge {
@@ -967,28 +749,36 @@
             gap: 6px;
             padding: 4px 10px;
             border-radius: 100px;
-            background: rgba(255, 18, 64, 0.14);
-            border: 1px solid rgba(255, 18, 64, 0.3);
-            color: #FF6B8B;
+            background: rgba(255, 18, 64, 0.15);
+            border: 1px solid rgba(255, 18, 64, 0.32);
+            color: #FF7592;
             font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            width: fit-content;
+            font-weight: 700;
+        }
+
+        .bento-stat-pill {
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            color: #FFFFFF;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .bento-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: -0.02em;
             color: #FFFFFF;
-            margin-bottom: 8px;
-            line-height: 1.22;
+            line-height: 1.2;
         }
 
         .bento-desc {
-            font-size: 13.5px;
-            line-height: 1.55;
+            font-size: 13px;
+            line-height: 1.5;
             color: var(--text-secondary);
         }
 
@@ -997,300 +787,151 @@
             font-weight: 600;
         }
 
-        /* --- МОУШН-ВИЗУАЛЫ ВНУТРИ КАРТОЧЕК --- */
-
-        /* Визуал 1: Обход белых списков и разблокировка соцсетей */
-        .unblock-stage {
+        /* Плотные информационные теги внутри 3 карточек */
+        .dense-tags-wrap {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            padding: 14px;
-            border-radius: 18px;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            position: relative;
-            overflow: hidden;
+            gap: 6px;
+            padding-top: 2px;
         }
 
-        .radar-sweep {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 18, 64, 0.22), transparent);
-            animation: sweepRight 3.2s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .service-pill {
+        .info-chip {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 8px 13px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            gap: 6px;
+            padding: 6px 11px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 600;
             color: #FFFFFF;
         }
 
-        .service-pill .status-dot {
-            width: 7px;
-            height: 7px;
+        .info-chip .ok-dot {
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #10B981;
             box-shadow: 0 0 8px #10B981;
         }
 
-        /* Визуал 2: Безлимитный трафик */
-        .infinity-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 18px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.16), rgba(0, 0, 0, 0.4));
-            border: 1px solid rgba(255, 18, 64, 0.25);
-        }
-
-        .infinity-symbol {
-            font-family: 'Manrope', sans-serif;
-            font-size: 42px;
-            font-weight: 800;
-            line-height: 1;
-            background: linear-gradient(90deg, #FFFFFF, #FF4D73, #FFFFFF);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shineText 4s linear infinite;
-        }
-
-        .speed-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 28px;
-        }
-
-        .speed-bars span {
-            width: 5px;
-            border-radius: 4px;
-            background: var(--crimson-core);
-            box-shadow: 0 0 10px rgba(255, 18, 64, 0.6);
-            animation: eqPulse 1.2s ease-in-out infinite alternate;
-        }
-
-        .speed-bars span:nth-child(1) { height: 45%; animation-delay: 0.1s; }
-        .speed-bars span:nth-child(2) { height: 75%; animation-delay: 0.3s; }
-        .speed-bars span:nth-child(3) { height: 100%; animation-delay: 0.2s; }
-        .speed-bars span:nth-child(4) { height: 65%; animation-delay: 0.4s; }
-        .speed-bars span:nth-child(5) { height: 90%; animation-delay: 0.15s; }
-
-        /* Визуал 3: ИИ-сервисы (Gemini, Claude, ChatGPT) */
-        .ai-chips-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .ai-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 14px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.045);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            font-family: 'Manrope', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: #FFFFFF;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-            transition: transform 0.25s ease, border-color 0.25s ease;
-        }
-
-        .bento-card:hover .ai-chip {
-            border-color: rgba(255, 18, 64, 0.4);
-        }
-
-        .ai-chip svg {
-            color: #FF4D73;
-        }
-
-        /* Визуал 4: Все платформы + ТВ + Happ */
-        .platforms-showcase {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .platform-tag {
-            padding: 7px 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-white);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .platform-tag.highlight-happ {
+        .info-chip.accent-chip {
             background: linear-gradient(135deg, rgba(255, 18, 64, 0.25), rgba(255, 18, 64, 0.08));
             border-color: rgba(255, 18, 64, 0.45);
-            color: #FFFFFF;
         }
 
-        /* Визуал 5: 3 устройства + расширение */
-        .devices-slots {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .slot-item {
-            flex: 1;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(255, 18, 64, 0.14);
-            border: 1px solid rgba(255, 18, 64, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .slot-item.plus-slot {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px dashed rgba(255, 255, 255, 0.25);
-            color: var(--text-secondary);
-        }
-
-        /* Визуал 6: Карточка 5 дней бесплатно */
-        .trial-cta-card {
+        /* Третья плашка (акцентная с кнопкой запуска теста) */
+        .bento-card.highlight-trial-card {
             background: 
-                radial-gradient(circle at 85% 20%, rgba(255, 18, 64, 0.32), transparent 55%),
-                linear-gradient(135deg, rgba(255, 18, 64, 0.14) 0%, rgba(255, 255, 255, 0.03) 100%);
+                radial-gradient(circle at 85% 20%, rgba(255, 18, 64, 0.28), transparent 55%),
+                linear-gradient(135deg, rgba(255, 18, 64, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
             border-color: rgba(255, 18, 64, 0.35);
         }
 
+        .trial-action-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-top: 4px;
+        }
+
         .inline-bot-btn {
-            margin-top: 4px;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 13px 20px;
-            border-radius: 14px;
+            gap: 7px;
+            padding: 11px 18px;
+            border-radius: 12px;
             background: #FFFFFF;
             color: #060609;
             font-family: 'Manrope', sans-serif;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 800;
             text-decoration: none;
-            width: fit-content;
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-            transition: transform 0.22s ease, box-shadow 0.22s ease;
+            box-shadow: 0 8px 22px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease;
         }
 
         .inline-bot-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(255, 255, 255, 0.32);
         }
 
         /* =========================================================
-           5. НИЖНИЙ БЛОК: INSTAGRAM @alpanapp И БЫСТРЫЙ СТАРТ
+           6. КОМПАКТНЫЙ ФУТЕР С INSTAGRAM @alpanapp
            ========================================================= */
         .social-footer-section {
             position: relative;
             z-index: 5;
-            margin-top: 28px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 14px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
         }
 
         .insta-banner-card {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 18px 20px;
-            border-radius: 24px;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 20px;
             text-decoration: none;
             background: linear-gradient(135deg, rgba(255, 18, 64, 0.14) 0%, rgba(255, 255, 255, 0.03) 100%);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease, box-shadow 0.28s ease;
+            transition: transform 0.25s var(--apple-ease), border-color 0.25s ease;
         }
 
         .insta-banner-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 18, 64, 0.5);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 35px -10px rgba(255, 18, 64, 0.35);
+            transform: translateY(-2px);
+            border-color: rgba(255, 18, 64, 0.48);
         }
 
         .insta-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .insta-icon-box {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #FF1240 0%, #9E0020 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
-            box-shadow: 0 8px 20px rgba(255, 18, 64, 0.4);
+            box-shadow: 0 6px 16px rgba(255, 18, 64, 0.4);
             flex-shrink: 0;
-        }
-
-        .insta-texts {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
         }
 
         .insta-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 15.5px;
+            font-size: 14px;
             font-weight: 800;
             color: #FFFFFF;
+            display: block;
         }
 
         .insta-sub {
-            font-size: 12.5px;
+            font-size: 11.5px;
             color: var(--text-secondary);
         }
 
         .insta-pill-tag {
-            padding: 9px 16px;
+            padding: 8px 14px;
             border-radius: 100px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #FFFFFF;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             white-space: nowrap;
-            transition: background 0.22s ease;
-        }
-
-        .insta-banner-card:hover .insta-pill-tag {
-            background: rgba(255, 255, 255, 0.16);
         }
 
         .footer-bottom-meta {
@@ -1298,241 +939,146 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            padding: 8px 6px 0;
-            font-size: 12px;
+            gap: 8px;
+            padding: 4px 4px 0;
+            font-size: 11px;
             color: var(--text-muted);
         }
 
         /* =========================================================
-           SCROLL REVEAL (МОУШН-АНИМАЦИЯ ПРИ ПРОКРУТКЕ)
+           APPLE-STYLE НАПРАВЛЕННЫЕ АНИМАЦИИ (СЛЕВА, СПРАВА, СНИЗУ)
            ========================================================= */
-        .reveal-on-scroll {
+        .apple-reveal {
             opacity: 0;
-            transform: translateY(28px) scale(0.98);
-            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
+            transition: 
+                opacity 0.85s var(--apple-ease),
+                transform 0.85s var(--apple-ease),
+                filter 0.85s var(--apple-ease);
+            will-change: opacity, transform, filter;
         }
 
-        .reveal-on-scroll.is-visible {
+        .apple-fade-left {
+            transform: translate3d(-48px, 12px, 0) scale(0.96);
+        }
+
+        .apple-fade-right {
+            transform: translate3d(48px, 12px, 0) scale(0.96);
+        }
+
+        .apple-fade-up {
+            transform: translate3d(0, 38px, 0) scale(0.97);
+        }
+
+        .apple-reveal.is-visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            filter: blur(0px);
+            transform: translate3d(0, 0, 0) scale(1);
         }
 
-        /* Ключевые кадры анимаций */
-        @keyframes dropDown {
-            0% { opacity: 0; transform: translateY(-16px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* Keyframes */
+        @keyframes introLogoPop {
+            0% { opacity: 0; transform: scale(0.7); }
+            45% { opacity: 1; transform: scale(1.04); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes phoneEntrance {
-            0% {
-                opacity: 0;
-                transform: perspective(1000px) translateY(35px) rotate(-4deg) scale(0.94);
-            }
-            100% {
-                opacity: 1;
-                transform: perspective(1000px) rotate(-9deg) rotateY(8deg) rotateX(4deg) scale(1);
-            }
+        @keyframes introShockwave {
+            0% { transform: scale(0.9); opacity: 0.9; }
+            100% { transform: scale(1.65); opacity: 0; }
         }
 
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(18px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes morphBlob {
-            0% {
-                border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
-                transform: rotate(0deg) scale(1);
-            }
-            100% {
-                border-radius: 58% 42% 38% 62% / 55% 60% 40% 45%;
-                transform: rotate(12deg) scale(1.05);
-            }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(6px); }
+            40%, 80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; }
         }
 
         @keyframes pulseGlow {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.45; transform: scale(0.88); }
-        }
-
-        @keyframes flarePulse {
-            0%, 100% { opacity: 0.95; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.55; transform: scale(0.75) rotate(15deg); }
-        }
-
-        @keyframes bounceDown {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(5px); }
+            50% { opacity: 0.45; transform: scale(0.85); }
         }
 
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
-        @keyframes laserDrop {
-            0% { top: -30px; }
-            100% { top: 100%; }
-        }
-
-        @keyframes sweepRight {
-            0% { left: -80%; }
-            100% { left: 140%; }
-        }
-
-        @keyframes shineText {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        @keyframes eqPulse {
-            0% { transform: scaleY(0.5); opacity: 0.6; }
-            100% { transform: scaleY(1.05); opacity: 1; }
+            50% { transform: translateY(-5px); }
         }
 
         /* =========================================================
-           ДЕСКТОПНАЯ АДАПТАЦИЯ (ШИРОКИЕ ЭКРАНЫ)
+           ДЕСКТОПНАЯ ВЕРСИЯ (КОМПАКТНАЯ И ВЫРАЗИТЕЛЬНАЯ)
            ========================================================= */
-        @media (min-width: 900px) {
+        @media (min-width: 860px) {
             body {
-                padding: 32px;
+                padding: 20px;
             }
 
             .showcase-window {
-                padding: 32px 56px 48px;
-                border-radius: 38px;
+                padding: 20px 40px 32px;
+                border-radius: 34px;
             }
 
-            .hero-section {
-                min-height: 620px;
-                padding-top: 16px;
+            .zero-style-stage {
+                max-width: 680px;
+                height: 280px;
             }
 
-            .floating-nav-pill {
-                padding: 9px 24px 9px 11px;
-                gap: 24px;
+            .zero-backdrop-card {
+                height: 175px;
+                padding: 18px 24px;
             }
 
-            .stage-grid {
-                display: grid;
-                grid-template-columns: 1.05fr 0.95fr;
-                gap: 48px;
-                align-items: center;
+            .zero-tilted-phone {
+                width: 235px;
             }
 
-            .visual-centerpiece {
-                height: 500px;
-                margin-bottom: 0;
-                pointer-events: auto;
-            }
-
-            .textured-3d-blob {
-                width: 400px;
-                height: 400px;
-            }
-
-            .tilted-phone {
-                width: 345px;
-                max-width: none;
-                mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
-                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 22%, black 100%);
-            }
-
-            .interaction-dock {
-                max-width: 470px;
-                justify-self: center;
-                gap: 16px;
-            }
-
-            .hero-copy {
-                text-align: left;
-                padding: 0;
-                margin-bottom: 4px;
+            .overlapping-title-block {
+                margin-top: -42px;
+                margin-bottom: 14px;
             }
 
             .hero-heading {
-                font-size: 40px;
+                font-size: 38px;
             }
 
             .hero-subtitle {
-                font-size: 16px;
-                max-width: 430px;
+                font-size: 14.5px;
             }
 
-            .waitlist-style-dock {
-                padding: 20px 20px 20px 24px;
-                border-radius: 26px;
+            .interaction-dock {
+                max-width: 560px;
             }
 
-            .dock-title {
-                font-size: 17px;
+            /* На ПК: 2 плашки сверху (слева и справа) и 1 широкая снизу — всего 3 плашки */
+            .bento-grid-three {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
             }
 
-            .white-pill-btn {
-                font-size: 14px;
-                padding: 14px 24px;
-            }
-
-            .glass-tile {
-                padding: 20px 22px;
-                border-radius: 24px;
-            }
-
-            .tile-title {
-                font-size: 16px;
-            }
-
-            .bridge-statement {
-                font-size: 32px;
-            }
-
-            .section-header-bar {
-                flex-direction: row;
-                align-items: flex-end;
-                justify-content: space-between;
-                margin-bottom: 28px;
-            }
-
-            .section-main-title {
-                font-size: 32px;
-            }
-
-            /* 12-колоночная Bento-сетка на ПК */
-            .bento-grid {
-                grid-template-columns: repeat(12, 1fr);
-                gap: 18px;
-            }
-
-            .bento-col-7 { grid-column: span 7; }
-            .bento-col-5 { grid-column: span 5; }
-            .bento-col-6 { grid-column: span 6; }
-            .bento-col-4 { grid-column: span 4; }
-
-            .bento-card {
-                padding: 28px 26px;
-            }
-
-            .bento-title {
-                font-size: 21px;
+            .bento-span-full {
+                grid-column: span 2;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновое свечение и орбиты -->
-    <div class="ambient-backdrop" aria-hidden="true"></div>
-    <div class="outer-orbit" aria-hidden="true"></div>
+    <!-- 1. СЕКУНДНЫЙ ЧЕРНЫЙ ЭКРАН-ЗАГРУЗЧИК С ЛОГОТИПОМ -->
+    <div class="space-intro-loader" id="spaceIntro">
+        <div class="intro-logo-wrap">
+            <img src="logo.png" alt="ALPAN VPN">
+        </div>
+        <span class="intro-boot-text">ALPAN SPACE NODE</span>
+    </div>
 
-    <!-- ГЛАВНЫЙ САЙТ-КОНТЕЙНЕР -->
+    <!-- 2. КОСМИЧЕСКИЙ ФОН С МЕДЛЕННО ЛЕТЯЩИМИ ЗВЕЗДАМИ -->
+    <canvas id="starfieldCanvas"></canvas>
+    <div class="cosmic-nebula" aria-hidden="true"></div>
+
+    <!-- ГЛАВНЫЙ КОНТЕЙНЕР -->
     <div class="showcase-window">
-        
-        <!-- Декоративная сетка и вертикальные лучи с референса 1 -->
         <div class="cyber-grid-overlay" aria-hidden="true"></div>
-        <div class="fluted-light-rays" aria-hidden="true"></div>
 
-        <!-- 1. ВЕРХНЯЯ СТЕКЛЯННАЯ КАПСУЛА -->
+        <!-- ВЕРХНЯЯ КАПСУЛА -->
         <header class="top-pill-wrapper">
             <nav class="floating-nav-pill">
                 <div class="nav-brand">
@@ -1542,292 +1088,191 @@
                     <span class="nav-brand-name">ALPAN VPN</span>
                 </div>
                 <div class="nav-divider"></div>
-                <div class="nav-tags">
-                    <span class="nav-live-indicator">
-                        <span class="live-dot"></span>
-                        Обход активен
-                    </span>
-                </div>
+                <span class="nav-live-indicator">
+                    <span class="live-dot"></span>
+                    Обход активен
+                </span>
             </nav>
         </header>
 
-        <!-- 2. ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН И 3 КНОПКИ -->
+        <!-- ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН КАК НА РЕФЕРЕНСЕ ZERO + НАДПИСЬ СНИЗУ ВНАХЛЕСТ + 3 КНОПКИ -->
         <section class="hero-section">
-            <main class="stage-grid">
-                
-                <!-- Телефон на фоне 3D-сферы (поддерживает и logo1.png, и logo2.png автоматически) -->
-                <div class="visual-centerpiece" id="phoneScene">
-                    <div class="textured-3d-blob"></div>
-                    <div class="tilted-phone" id="tiltedPhone">
-                        <div class="phone-lens-flare" aria-hidden="true"></div>
-                        <img src="logo1.png" onerror="this.onerror=null; this.src='logo2.png';" alt="Интерфейс ALPAN VPN в Telegram">
+            
+            <!-- Сцена с диагональным телефоном и широкой капсулой сзади -->
+            <div class="zero-style-stage" id="phoneScene">
+                <div class="zero-backdrop-card apple-reveal apple-fade-up is-visible">
+                    <div class="backdrop-top-row">
+                        <span class="space-tag">STEALTH PROTOCOL • 2026</span>
+                        <span class="free-pill-badge">✦ 5 дней бесплатно</span>
+                    </div>
+                    <div class="backdrop-bottom-brand">
+                        <strong>ALPAN™</strong>
+                        <span>Космическая скорость и обход глушилок.</span>
                     </div>
                 </div>
 
-                <!-- Заголовок, 3D-бейдж «5 дней бесплатно» и 3 кнопки -->
-                <div class="interaction-dock">
-                    
-                    <div class="hero-copy">
-                        <div class="promo-badge-row">
-                            <span class="tilted-3d-badge">5 дней бесплатно</span>
-                            <span class="sparkle-icons" aria-hidden="true">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 1L14.5 8.5L22 11L14.5 13.5L12 21L9.5 13.5L2 11L9.5 8.5L12 1Z"/>
+                <!-- Сам телефон в диагональном положении с картинки-референса -->
+                <div class="zero-tilted-phone" id="tiltedPhone">
+                    <img src="logo2.png" onerror="this.onerror=null; this.src='logo1.png';" alt="ALPAN VPN в Telegram">
+                </div>
+            </div>
+
+            <!-- Надпись снизу, которая чуть-чуть закрывает телефон, но оставляет его видимым -->
+            <div class="overlapping-title-block apple-reveal apple-fade-up is-visible">
+                <h1 class="hero-heading">Свободный доступ <em>без</em> ограничений</h1>
+                <p class="hero-subtitle">
+                    Стабильно рабочие обходы глушилок и белых списков в 1 клик.
+                </p>
+            </div>
+
+            <!-- Все 3 кнопки сразу видны снизу -->
+            <div class="interaction-dock">
+                
+                <!-- Кнопка 1: Бот -->
+                <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="waitlist-style-dock apple-reveal apple-fade-left is-visible">
+                    <div class="dock-info">
+                        <div class="dock-label-row">
+                            <span class="tg-mini-badge">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                                 </svg>
                             </span>
+                            <span class="dock-title">Наш Telegram-бот</span>
                         </div>
-                        <h1 class="hero-heading">Свободный доступ <em>без</em> ограничений</h1>
-                        <p class="hero-subtitle">
-                            Стабильно рабочие обходы глушилок и белых списков. Легкое подключение в 1 клик.
-                        </p>
+                        <span class="dock-sub">@AlpanVPNrobot • В 1 клик (5 дней бесплатно)</span>
                     </div>
 
-                    <!-- КНОПКА 1: НАШ TELEGRAM-БОТ -->
-                    <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="waitlist-style-dock">
-                        <div class="dock-info">
-                            <div class="dock-label-row">
-                                <span class="tg-mini-badge">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                                    </svg>
-                                </span>
-                                <span class="dock-title">Наш Telegram-бот</span>
-                            </div>
-                            <span class="dock-sub">@AlpanVPNrobot • 5 дней бесплатно</span>
-                        </div>
+                    <span class="white-pill-btn">
+                        Подключить
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </span>
+                </a>
 
-                        <span class="white-pill-btn">
-                            Подключить
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </span>
+                <!-- Кнопки 2 и 3: Канал и Поддержка -->
+                <div class="secondary-bento-row">
+                    
+                    <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="glass-tile apple-reveal apple-fade-left is-visible">
+                        <div class="tile-top">
+                            <div class="tile-orb-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </div>
+                            <div class="tile-corner-arrow">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tile-bottom">
+                            <span class="tile-title">Наш канал</span>
+                            <span class="tile-handle">@alpanvpn</span>
+                        </div>
                     </a>
 
-                    <!-- КНОПКИ 2 И 3: КАНАЛ И ПОДДЕРЖКА -->
-                    <div class="secondary-bento-row">
-                        
-                        <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="glass-tile">
-                            <div class="tile-top">
-                                <div class="tile-orb-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                                    </svg>
-                                </div>
-                                <div class="tile-corner-arrow">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                                        <polyline points="7 7 17 7 17 17"></polyline>
-                                    </svg>
-                                </div>
+                    <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="glass-tile apple-reveal apple-fade-right is-visible">
+                        <div class="tile-top">
+                            <div class="tile-orb-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
                             </div>
-                            <div class="tile-bottom">
-                                <span class="tile-title">Наш канал</span>
-                                <span class="tile-handle">@alpanvpn</span>
+                            <div class="tile-corner-arrow">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
                             </div>
-                        </a>
-
-                        <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="glass-tile">
-                            <div class="tile-top">
-                                <div class="tile-orb-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                                    </svg>
-                                </div>
-                                <div class="tile-corner-arrow">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                                        <polyline points="7 7 17 7 17 17"></polyline>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="tile-bottom">
-                                <span class="tile-title">Поддержка</span>
-                                <span class="tile-handle">@AlpanSupport</span>
-                            </div>
-                        </a>
-
-                    </div>
+                        </div>
+                        <div class="tile-bottom">
+                            <span class="tile-title">Поддержка</span>
+                            <span class="tile-handle">@AlpanSupport</span>
+                        </div>
+                    </a>
 
                 </div>
-            </main>
-
-            <!-- Скролл-индикатор к продолжению сайта -->
-            <a href="#why-alpan" class="scroll-cue">
-                <span>Почему выбирают нас</span>
-                <span class="scroll-cue-arrow">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </span>
-            </a>
+            </div>
         </section>
 
-        <!-- 3. ПЕРЕХОД С ЛАЗЕРНОЙ ЛИНИЕЙ И 3D-ЛОГОТИПОМ (В СТИЛЕ 2-ГО РЕФЕРЕНСА LUMINA) -->
-        <section class="lumina-bridge-section reveal-on-scroll" id="why-alpan">
+        <!-- КОМПАКТНЫЙ ПЕРЕХОД С ИКОНКОЙ ЯДРА -->
+        <section class="lumina-bridge-section apple-reveal apple-fade-up">
             <div class="horizon-glow-divider" aria-hidden="true"></div>
-
-            <div class="bridge-eyebrow">
-                <span class="live-dot"></span>
-                Создан для реальных блокировок
-            </div>
 
             <h2 class="bridge-statement">
                 Выходите в сеть даже тогда, когда <em>всё остальное</em> заблокировано. 
-                <span class="muted-part">Никаких лимитов, сложных настроек и потерь скорости.</span>
+                <span class="muted-part">Вся мощь в 3 главных преимуществах:</span>
             </h2>
 
-            <!-- Светящаяся 3D-иконка с орлом и лазерным лучом вниз -->
             <div class="core-node-wrapper">
                 <div class="core-squircle-icon">
                     <img src="logo.png" alt="ALPAN Core">
                 </div>
                 <div class="laser-stem"></div>
-                <div class="laser-junction-dot"></div>
             </div>
         </section>
 
-        <!-- 4. BENTO-СЕТКА «ПОЧЕМУ МЫ» -->
+        <!-- РОВНО 3 НАСЫЩЕННЫЕ ПЛАШКИ (APPLE FADE-IN СЛЕВА, СПРАВА И СНИЗУ) -->
         <section class="bento-showcase-container">
-            
-            <div class="section-header-bar reveal-on-scroll">
-                <div>
-                    <div class="section-tag-pill">
-                        <span></span>
-                        ПОЧЕМУ МЫ
-                    </div>
-                </div>
-                <h3 class="section-main-title">
-                    Полная свобода в сети. <span>На каждом вашем устройстве.</span>
-                </h3>
-            </div>
+            <div class="bento-grid-three">
 
-            <div class="bento-grid">
-
-                <!-- КАРТОЧКА 1: ОБХОД БЕЛЫХ СПИСКОВ И ГЛУШИЛОК -->
-                <article class="bento-card bento-col-7 reveal-on-scroll">
-                    <div class="bento-visual">
-                        <div class="unblock-stage">
-                            <div class="radar-sweep"></div>
-                            <span class="service-pill"><span class="status-dot"></span>Instagram</span>
-                            <span class="service-pill"><span class="status-dot"></span>YouTube 4K</span>
-                            <span class="service-pill"><span class="status-dot"></span>Telegram</span>
-                            <span class="service-pill"><span class="status-dot"></span>Любые сайты</span>
-                        </div>
+                <!-- ПЛАШКА 1 (ВЫЕЗД СЛЕВА): ОБХОД БЕЛЫХ СПИСКОВ, ГЛУШИЛОК + БЕЗЛИМИТ -->
+                <article class="bento-card apple-reveal apple-fade-left">
+                    <div class="bento-top-bar">
+                        <span class="bento-badge">01 • Анти-глушилки & Безлимит</span>
+                        <span class="bento-stat-pill">∞ ГБ Трафика</span>
                     </div>
-                    <div class="bento-content">
-                        <span class="bento-badge">Главное преимущество</span>
-                        <h4 class="bento-title">Обход «белых списков» и глушилок</h4>
-                        <p class="bento-desc">
-                            Когда мобильные операторы и провайдеры включают жесткие глушилки или режим «белых списков», обычный интернет перестает открывать даже базовые приложения. <strong>Alpan VPN пробивает блокировки</strong> и возвращает стабильный доступ к Instagram, YouTube, Telegram и всей сети.
-                        </p>
+                    <h3 class="bento-title">Обход «белых списков» без лимитов скорости</h3>
+                    <p class="bento-desc">
+                        Помогает вообще <strong>выйти в сеть</strong>, когда провайдеры и мобильные операторы включают жесткие глушилки. Без обхода не работают базовые сервисы — с нами всё летает в 4K без ограничений по гигабайтам.
+                    </p>
+                    <div class="dense-tags-wrap">
+                        <span class="info-chip"><span class="ok-dot"></span>Instagram</span>
+                        <span class="info-chip"><span class="ok-dot"></span>YouTube 4K</span>
+                        <span class="info-chip"><span class="ok-dot"></span>Telegram</span>
+                        <span class="info-chip accent-chip">∞ Полный безлимит</span>
                     </div>
                 </article>
 
-                <!-- КАРТОЧКА 2: БЕЗЛИМИТНЫЙ ТРАФИК -->
-                <article class="bento-card bento-col-5 reveal-on-scroll">
-                    <div class="bento-visual">
-                        <div class="infinity-box">
-                            <span class="infinity-symbol">∞ ГБ</span>
-                            <div class="speed-bars" aria-hidden="true">
-                                <span></span><span></span><span></span><span></span><span></span>
-                            </div>
-                        </div>
+                <!-- ПЛАШКА 2 (ВЫЕЗД СПРАВА): GEMINI, CLAUDE, ИИ + ВСЕ УСТРОЙСТВА, HAPP И ТВ -->
+                <article class="bento-card apple-reveal apple-fade-right">
+                    <div class="bento-top-bar">
+                        <span class="bento-badge">02 • Мировые ИИ & Все платформы</span>
+                        <span class="bento-stat-pill">Happ + Smart TV</span>
                     </div>
-                    <div class="bento-content">
-                        <span class="bento-badge">Без урезания скорости</span>
-                        <h4 class="bento-title">Полный безлимит трафика</h4>
-                        <p class="bento-desc">
-                            Забудьте о счетчиках гигабайт. Смотрите видео в <strong>4K Ultra HD</strong>, качайте тяжелые файлы, сидите в соцсетях и играйте без ограничений 24/7.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- КАРТОЧКА 3: ПОДДЕРЖКА GEMINI, CLAUDE И ИИ -->
-                <article class="bento-card bento-col-6 reveal-on-scroll">
-                    <div class="bento-visual">
-                        <div class="ai-chips-row">
-                            <span class="ai-chip">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2L12 2Z"/>
-                                </svg>
-                                Google Gemini
-                            </span>
-                            <span class="ai-chip">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                                    <circle cx="12" cy="12" r="9"/>
-                                </svg>
-                                Claude AI
-                            </span>
-                            <span class="ai-chip">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                                    <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
-                                </svg>
-                                ChatGPT & Cloud
-                            </span>
-                        </div>
-                    </div>
-                    <div class="bento-content">
-                        <span class="bento-badge">AI & Cloud Ready</span>
-                        <h4 class="bento-title">Доступ к Gemini, Claude и мировым ИИ</h4>
-                        <p class="bento-desc">
-                            Чистые зарубежные IP-адреса позволяют без ошибок и региональных банов пользоваться <strong>Google Gemini, Claude, ChatGPT</strong> и зарубежными облачными сервисами.
-                        </p>
+                    <h3 class="bento-title">Доступ к Gemini и Claude • Работает даже на ТВ</h3>
+                    <p class="bento-desc">
+                        Чистые зарубежные локации открывают <strong>Google Gemini, Claude, ChatGPT и Cloud-сервисы</strong> без региональных блокировок. Подключайтесь на телефонах, ПК и <strong>Smart TV / Android TV</strong> через удобное приложение <strong>Happ</strong>.
+                    </p>
+                    <div class="dense-tags-wrap">
+                        <span class="info-chip accent-chip">✦ Gemini & Claude</span>
+                        <span class="info-chip">⚡ Клиент Happ</span>
+                        <span class="info-chip">📺 Android TV / Smart TV</span>
+                        <span class="info-chip">📱 iOS • Android • ПК</span>
                     </div>
                 </article>
 
-                <!-- КАРТОЧКА 4: РАБОТАЕТ ВЕЗДЕ + HAPP + SMART TV -->
-                <article class="bento-card bento-col-6 reveal-on-scroll">
-                    <div class="bento-visual">
-                        <div class="platforms-showcase">
-                            <span class="platform-tag highlight-happ">⚡ Приложение Happ</span>
-                            <span class="platform-tag">📺 Smart TV / Android TV</span>
-                            <span class="platform-tag">📱 iOS & Android</span>
-                            <span class="platform-tag">💻 Windows & macOS</span>
+                <!-- ПЛАШКА 3 (ВЫЕЗД СНИЗУ): 3 УСТРОЙСТВА + 5 ДНЕЙ БЕСПЛАТНО В БОТЕ -->
+                <article class="bento-card bento-span-full highlight-trial-card apple-reveal apple-fade-up">
+                    <div class="bento-top-bar">
+                        <span class="bento-badge">03 • Свобода подключения</span>
+                        <span class="bento-stat-pill">3 устройства + расширение</span>
+                    </div>
+                    <h3 class="bento-title">Сразу 3 устройства на подписку и 5 дней бесплатно</h3>
+                    <p class="bento-desc">
+                        Подключайте одновременно <strong>телефон, ноутбук и телевизор</strong> (а если нужно больше — дополнительные слоты легко докупаются прямо в боте). Все ответы по настройке и <strong>5 бесплатных дней теста</strong> ждут вас внутри Telegram-бота.
+                    </p>
+                    <div class="trial-action-row">
+                        <div class="dense-tags-wrap">
+                            <span class="info-chip">📱 + 💻 + 📺 (3 слота)</span>
+                            <span class="info-chip">➕ Легкая докупка устройств</span>
                         </div>
-                    </div>
-                    <div class="bento-content">
-                        <span class="bento-badge">Все платформы</span>
-                        <h4 class="bento-title">Работает везде — даже на телевизоре</h4>
-                        <p class="bento-desc">
-                            Устанавливайте на телефон, компьютер, планшет или <strong>прямо на Smart TV</strong>. Подключение идет через удобный современный клиент <strong>Happ</strong> — вся инструкция уже ждет внутри бота.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- КАРТОЧКА 5: 3 УСТРОЙСТВА + РАСШИРЕНИЕ -->
-                <article class="bento-card bento-col-6 reveal-on-scroll">
-                    <div class="bento-visual">
-                        <div class="devices-slots">
-                            <div class="slot-item">📱 Телефон</div>
-                            <div class="slot-item">💻 Ноутбук</div>
-                            <div class="slot-item">📺 ТВ</div>
-                            <div class="slot-item plus-slot">+ Докупить</div>
-                        </div>
-                    </div>
-                    <div class="bento-content">
-                        <span class="bento-badge">Гибкий лимит</span>
-                        <h4 class="bento-title">Сразу 3 устройства на подписку</h4>
-                        <p class="bento-desc">
-                            Одной подписки хватает сразу на <strong>3 ваших устройства</strong> одновременно. Нужно больше для семьи или работы? Дополнительные слоты докупаются в боте в пару нажатий.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- КАРТОЧКА 6: 5 ДНЕЙ БЕСПЛАТНО (ПЕРЕХОД В БОТА) -->
-                <article class="bento-card bento-col-6 trial-cta-card reveal-on-scroll">
-                    <div class="bento-content">
-                        <span class="bento-badge">Попробуйте прямо сейчас</span>
-                        <h4 class="bento-title">5 дней бесплатно для каждого</h4>
-                        <p class="bento-desc">
-                            Протестируйте скорость, обход глушилок и работу на своих устройствах совершенно бесплатно. Все тарифы и мгновенная выдача доступа — внутри нашего Telegram-бота.
-                        </p>
-                    </div>
-                    <div class="bento-visual">
                         <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="inline-bot-btn">
-                            Забрать 5 дней в боте
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            Забрать 5 дней бесплатно
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="7" y1="17" x2="17" y2="7"></line>
                                 <polyline points="7 7 17 7 17 17"></polyline>
                             </svg>
@@ -1838,27 +1283,26 @@
             </div>
         </section>
 
-        <!-- 5. ФУТЕР С INSTAGRAM @alpanapp -->
-        <footer class="social-footer-section reveal-on-scroll">
-            
+        <!-- ФУТЕР С INSTAGRAM @alpanapp -->
+        <footer class="social-footer-section apple-reveal apple-fade-up">
             <a href="https://instagram.com/alpanapp" target="_blank" rel="noopener" class="insta-banner-card">
                 <div class="insta-left">
                     <div class="insta-icon-box">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                         </svg>
                     </div>
-                    <div class="insta-texts">
+                    <div>
                         <span class="insta-title">Наш Instagram</span>
-                        <span class="insta-sub">@alpanapp • Новости, обзоры и обновления</span>
+                        <span class="insta-sub">@alpanapp • Новости и обновления</span>
                     </div>
                 </div>
 
                 <span class="insta-pill-tag">
-                    Подписаться
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    @alpanapp
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="7" y1="17" x2="17" y2="7"></line>
                         <polyline points="7 7 17 7 17 17"></polyline>
                     </svg>
@@ -1866,29 +1310,155 @@
             </a>
 
             <div class="footer-bottom-meta">
-                <span>© 2026 ALPAN VPN. Все права защищены.</span>
-                <span>Бот: @AlpanVPNrobot • Инст: @alpanapp</span>
+                <span>© 2026 ALPAN VPN</span>
+                <span>Telegram: @AlpanVPNrobot • Instagram: @alpanapp</span>
             </div>
-
         </footer>
 
     </div>
 
-    <!-- СКРИПТЫ: 3D-параллакс телефона, Spotlight-свечение на Bento и плавный Scroll Reveal -->
     <script>
-        // 1. Плавный 3D-параллакс телефона на ПК
-        const phone = document.getElementById('tiltedPhone');
-        if (window.matchMedia("(min-width: 900px)").matches && phone) {
-            document.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.clientX) / 48;
-                const yAxis = (window.innerHeight / 2 - e.clientY) / 48;
-                phone.style.transform = `perspective(1000px) rotate(-9deg) rotateY(${8 - xAxis}deg) rotateX(${4 + yAxis}deg)`;
+        /* =========================================================
+           1. КОСМИЧЕСКИЙ ЗВУК ЗАГРУЗКИ (WEB AUDIO API СИНТЕЗАТОР)
+           ========================================================= */
+        let bootSoundPlayed = false;
+
+        function playCosmicBootSound() {
+            if (bootSoundPlayed) return;
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+
+                const now = ctx.currentTime;
+
+                // Создаем глубокий космический аккорд в стиле Apple / Sci-Fi
+                const freqs = [130.81, 196.00, 261.63, 392.00, 523.25]; // C3, G3, C4, G4, C5
+                freqs.forEach((f, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(f * 0.96, now);
+                    osc.frequency.exponentialRampToValueAtTime(f, now + 0.35);
+
+                    gain.gain.setValueAtTime(0.0001, now);
+                    gain.gain.linearRampToValueAtTime(0.035 / (idx + 1), now + 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.45);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(now);
+                    osc.stop(now + 1.5);
+                });
+
+                bootSoundPlayed = true;
+            } catch (e) {
+                // Игнорируем, если браузер строго запретил автоплей до клика
+            }
+        }
+
+        // Пытаемся воспроизвести сразу при загрузке + при первом касании экрана (если мобильный браузер заблокировал автоплей)
+        window.addEventListener('DOMContentLoaded', () => {
+            playCosmicBootSound();
+            const unlockAudio = () => {
+                playCosmicBootSound();
+                window.removeEventListener('pointerdown', unlockAudio);
+                window.removeEventListener('touchstart', unlockAudio);
+            };
+            window.addEventListener('pointerdown', unlockAudio, { once: true });
+            window.addEventListener('touchstart', unlockAudio, { once: true });
+
+            // Убираем черный прелоадер ровно через 1.05 секунды
+            setTimeout(() => {
+                const loader = document.getElementById('spaceIntro');
+                if (loader) loader.classList.add('is-hidden');
+                document.body.classList.add('space-ready');
+            }, 1050);
+        });
+
+        /* =========================================================
+           2. 3D-ПОЛЕ ЛЕТЯЩИХ ЗВЕЗД В КОСМОСЕ (CANVAS)
+           ========================================================= */
+        const canvas = document.getElementById('starfieldCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const STAR_COUNT = 160;
+        let warpFactor = 7.5; // При старте звезды летят быстро, затем замедляются
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push({
+                x: (Math.random() - 0.5) * canvas.width * 2,
+                y: (Math.random() - 0.5) * canvas.height * 2,
+                z: Math.random() * canvas.width,
+                color: Math.random() > 0.78 ? '#FF3B63' : '#FFFFFF'
             });
         }
 
-        // 2. Плавное появление секций и карточек при скролле (Scroll Reveal)
-        const revealElements = document.querySelectorAll('.reveal-on-scroll');
-        const revealObserver = new IntersectionObserver((entries) => {
+        function animateStars() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.32)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Плавно замедляем гиперпрыжок до спокойного космического полета
+            if (warpFactor > 0.55) {
+                warpFactor *= 0.965;
+            }
+
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            for (let star of stars) {
+                star.z -= warpFactor;
+                if (star.z <= 1) {
+                    star.z = canvas.width;
+                    star.x = (Math.random() - 0.5) * canvas.width * 2;
+                    star.y = (Math.random() - 0.5) * canvas.height * 2;
+                }
+
+                const sx = (star.x / star.z) * (canvas.width * 0.45) + cx;
+                const sy = (star.y / star.z) * (canvas.height * 0.45) + cy;
+                const radius = Math.max(0.4, (1 - star.z / canvas.width) * 2.2);
+                const alpha = Math.min(1, (1 - star.z / canvas.width) * 1.2);
+
+                ctx.beginPath();
+                ctx.fillStyle = star.color === '#FF3B63'
+                    ? `rgba(255, 59, 99, ${alpha})`
+                    : `rgba(255, 255, 255, ${alpha * 0.85})`;
+                ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        /* =========================================================
+           3. 3D-ПАРАЛЛАКС ДИАГОНАЛЬНОГО ТЕЛЕФОНА И APPLE REVEAL
+           ========================================================= */
+        const phone = document.getElementById('tiltedPhone');
+        if (window.matchMedia("(min-width: 860px)").matches && phone) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.clientX) / 50;
+                const yAxis = (window.innerHeight / 2 - e.clientY) / 50;
+                phone.style.transform = `perspective(1000px) rotate(-25deg) rotateX(${14 + yAxis}deg) rotateY(${10 - xAxis}deg) translateY(-6px)`;
+            });
+        }
+
+        // Направленные Apple-анимации при скролле (слева, справа, снизу)
+        const appleElements = document.querySelectorAll('.apple-reveal');
+        const appleObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
@@ -1896,17 +1466,14 @@
             });
         }, { threshold: 0.12 });
 
-        revealElements.forEach((el) => revealObserver.observe(el));
+        appleElements.forEach((el) => appleObserver.observe(el));
 
-        // 3. Интерактивная подсветка курсора внутри Bento-карточек
-        const bentoCards = document.querySelectorAll('.bento-card');
-        bentoCards.forEach((card) => {
+        // Подсветка карточек за курсором
+        document.querySelectorAll('.bento-card').forEach((card) => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
             });
         });
     </script>
