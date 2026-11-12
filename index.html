@@ -9,21 +9,18 @@
     <!-- Шрифты: Inter + Manrope + Instrument Serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-void: #000000;
-            --bg-frame: rgba(7, 3, 5, 0.82);
-            --crimson-core: #FF1240;
-            --crimson-bright: #FF3B63;
-            --crimson-deep: #7A0019;
-            --crimson-glow: rgba(255, 18, 64, 0.45);
-            --glass-surface: rgba(255, 255, 255, 0.045);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --text-white: #F9FAFB;
-            --text-secondary: rgba(255, 255, 255, 0.68);
-            --text-muted: rgba(255, 255, 255, 0.45);
+            --bg-frame: rgba(8, 3, 5, 0.78);
+            --crimson-core: #FF123E;
+            --crimson-deep: #9E0020;
+            --crimson-glow: rgba(255, 18, 62, 0.5);
+            --text-white: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.74);
+            --text-muted: rgba(255, 255, 255, 0.48);
             --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -46,14 +43,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
+            padding: 8px;
             position: relative;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
         /* =========================================================
-           1. СЕКУНДНЫЙ ЧЕРНЫЙ ПРЕЛОАДЕР С ЛОГОТИПОМ И ЗВУКОМ
+           1. ЧИСТЫЙ ЧЕРНЫЙ ПРЕЛОАДЕР: ТОЛЬКО БЕЛОЕ ЛОГО С БЛИКОМ
            ========================================================= */
         .space-intro-loader {
             position: fixed;
@@ -61,62 +58,63 @@
             background: #000000;
             z-index: 9999;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            transition: opacity 0.65s var(--apple-ease), transform 0.65s var(--apple-ease), visibility 0.65s;
+            /* Быстрый плавный блюрный переход */
+            transition: 
+                opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.42s;
         }
 
         .space-intro-loader.is-hidden {
             opacity: 0;
-            transform: scale(1.08);
+            filter: blur(26px);
+            transform: scale(1.14);
             visibility: hidden;
             pointer-events: none;
         }
 
-        .intro-logo-wrap {
+        /* Чистый белый логотип без всяких рамок и надписей */
+        .pure-logo-glint {
             position: relative;
-            width: 82px;
-            height: 82px;
-            border-radius: 26px;
-            background: radial-gradient(circle at 50% 30%, rgba(255, 18, 64, 0.35), rgba(15, 2, 6, 0.95));
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            width: 86px;
+            height: 86px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 50px rgba(255, 18, 64, 0.6);
-            animation: introLogoPop 1s var(--apple-ease) forwards;
+            animation: logoGlintPop 0.72s var(--apple-ease) forwards;
         }
 
-        .intro-logo-wrap::after {
+        .pure-logo-glint img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(255, 255, 255, 0.45));
+        }
+
+        /* Яркий диагональный световой блик по логотипу */
+        .pure-logo-glint::after {
             content: '';
             position: absolute;
-            inset: -6px;
-            border-radius: 32px;
-            border: 1px solid rgba(255, 18, 64, 0.5);
-            animation: introShockwave 1s ease-out forwards;
-        }
-
-        .intro-logo-wrap img {
-            width: 44px;
-            height: 44px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
-        }
-
-        .intro-boot-text {
-            font-family: 'Manrope', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.65);
-            animation: fadeInOut 1s ease forwards;
+            inset: -25%;
+            background: linear-gradient(
+                115deg,
+                transparent 20%,
+                rgba(255, 255, 255, 0.05) 38%,
+                rgba(255, 255, 255, 0.98) 50%,
+                rgba(255, 90, 130, 0.7) 54%,
+                transparent 70%
+            );
+            transform: translateX(-130%) skewX(-20deg);
+            animation: sweepGlint 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+            mix-blend-mode: screen;
+            pointer-events: none;
         }
 
         /* =========================================================
-           2. КОСМИЧЕСКИЙ ФОН С ЛЕТЯЩИМИ ЗВЕЗДАМИ (CANVAS)
+           2. КОСМИЧЕСКИЙ ФОН С ЛЕТЯЩИМИ ЗВЕЗДАМИ
            ========================================================= */
         #starfieldCanvas {
             position: fixed;
@@ -131,60 +129,82 @@
             position: fixed;
             inset: 0;
             background: 
-                radial-gradient(circle at 20% 18%, rgba(210, 0, 45, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 82% 75%, rgba(255, 18, 64, 0.16) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(90, 0, 22, 0.12) 0%, transparent 70%);
+                radial-gradient(circle at 22% 16%, rgba(215, 0, 45, 0.24) 0%, transparent 45%),
+                radial-gradient(circle at 82% 72%, rgba(255, 18, 62, 0.18) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
-            opacity: 0;
-            transition: opacity 1.2s ease;
         }
 
-        body.space-ready .cosmic-nebula {
-            opacity: 1;
-        }
-
-        /* =========================================================
-           ГЛАВНОЕ ОКНО САЙТА (КОМПАКТНЫЕ ОТСТУПЫ)
-           ========================================================= */
+        /* Основной контейнер с блюр-входом при открытии */
         .showcase-window {
             width: 100%;
-            max-width: 1060px;
+            max-width: 1000px;
             background: 
-                radial-gradient(ellipse 80% 35% at 50% 12%, rgba(165, 5, 38, 0.28) 0%, rgba(25, 2, 8, 0.15) 60%, transparent 100%),
+                radial-gradient(ellipse 85% 40% at 50% 18%, rgba(175, 5, 38, 0.3) 0%, rgba(20, 2, 7, 0.14) 60%, transparent 100%),
                 var(--bg-frame);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.13);
-            border-radius: 30px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 28px;
             position: relative;
             z-index: 2;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 14px 14px 24px;
+            padding: 12px 12px 20px;
             box-shadow: 
-                0 30px 90px rgba(0, 0, 0, 0.92),
-                0 0 70px -20px rgba(255, 18, 64, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.16);
+                0 30px 90px rgba(0, 0, 0, 0.95),
+                0 0 70px -20px rgba(255, 18, 62, 0.28),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            filter: blur(16px);
+            transform: scale(0.975);
+            opacity: 0;
+            transition: filter 0.55s var(--apple-ease), transform 0.55s var(--apple-ease), opacity 0.55s var(--apple-ease);
         }
 
-        /* Тонкая космическая сетка */
-        .cyber-grid-overlay {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 85%);
-            -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 85%);
-            pointer-events: none;
-            z-index: 0;
+        body.space-ready .showcase-window {
+            filter: blur(0px);
+            transform: scale(1);
+            opacity: 1;
         }
 
         /* =========================================================
-           ВЕРХНЯЯ КАПСУЛА НАВИГАЦИИ
+           ЭТАЛОННЫЙ СТИЛЬ iOS 27 LIQUID GLASS (РЕФРАКЦИЯ + БЛИКИ)
+           ========================================================= */
+        .ios27-liquid {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.16) 0%,
+                rgba(255, 255, 255, 0.05) 45%,
+                rgba(255, 18, 62, 0.08) 100%
+            );
+            backdrop-filter: blur(28px) saturate(210%) brightness(1.06);
+            -webkit-backdrop-filter: blur(28px) saturate(210%) brightness(1.06);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 
+                0 16px 38px rgba(0, 0, 0, 0.55),
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.55),
+                inset 1px 0 1px rgba(255, 255, 255, 0.28),
+                inset 0 -1.5px 2px rgba(0, 0, 0, 0.45);
+        }
+
+        .ios27-liquid-crimson {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 24, 68, 0.88) 0%,
+                rgba(155, 0, 34, 0.92) 100%
+            );
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 160, 180, 0.45);
+            box-shadow: 
+                0 18px 42px rgba(255, 18, 62, 0.42),
+                inset 0 1.5px 1.5px rgba(255, 255, 255, 0.58),
+                inset 0 -2px 4px rgba(70, 0, 15, 0.7);
+        }
+
+        /* =========================================================
+           ВЕРХНЯЯ КАПСУЛА + ПЛАШКА «5 ДНЕЙ» КАК НА ПРИМЕРЕ
            ========================================================= */
         .top-pill-wrapper {
             width: 100%;
@@ -198,60 +218,55 @@
         .floating-nav-pill {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 6px 14px 6px 8px;
+            gap: 10px;
+            padding: 5px 13px 5px 7px;
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(24px) saturate(160%);
-            -webkit-backdrop-filter: blur(24px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
         }
 
         .nav-logo-circle {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.35), rgba(255, 255, 255, 0.06));
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: linear-gradient(135deg, rgba(255, 18, 62, 0.42), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 14px rgba(255, 18, 64, 0.4);
+            box-shadow: 0 0 12px rgba(255, 18, 62, 0.45);
         }
 
         .nav-logo-circle img {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             object-fit: contain;
         }
 
         .nav-brand-name {
             font-family: 'Manrope', sans-serif;
             font-weight: 800;
-            font-size: 12.5px;
-            letter-spacing: 0.04em;
+            font-size: 12px;
+            letter-spacing: 0.03em;
             color: #FFFFFF;
         }
 
         .nav-divider {
             width: 1px;
-            height: 14px;
-            background: rgba(255, 255, 255, 0.14);
+            height: 13px;
+            background: rgba(255, 255, 255, 0.18);
         }
 
         .nav-live-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             color: #FFFFFF;
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 600;
         }
 
@@ -264,8 +279,72 @@
             animation: pulseGlow 2s infinite;
         }
 
+        /* Двойная плашка «5 ДНЕЙ» сверху как на референсе */
+        .split-promo-banner {
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto 8px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(14, 6, 9, 0.78);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+            position: relative;
+            z-index: 8;
+        }
+
+        .split-promo-left {
+            position: relative;
+            padding: 9px 15px;
+            background: linear-gradient(135deg, #FF1644 0%, #9E0020 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            box-shadow: 0 0 24px rgba(255, 18, 62, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+        }
+
+        /* Световая вспышка на краю красного блока как на референсе */
+        .split-promo-left::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFFFFF 0%, rgba(255, 120, 150, 0.8) 40%, transparent 75%);
+            box-shadow: 0 0 14px 3px #FFFFFF;
+            pointer-events: none;
+        }
+
+        .split-promo-right {
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            font-size: 11.5px;
+            line-height: 1.22;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: -0.015em;
+        }
+
+        .split-promo-right strong {
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
         /* =========================================================
-           3. ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН В СТИЛЕ РЕФЕРЕНСА ZERO + ЗАГОЛОВОК ПОВЕРХ + 3 КНОПКИ
+           3. СЦЕНА С ТЕЛЕФОНОМ И iOS 27 LIQUID ПЛАШКАМИ (КАК НА ПРИМЕРЕ)
            ========================================================= */
         .hero-section {
             display: flex;
@@ -276,208 +355,247 @@
             width: 100%;
         }
 
-        /* Сцена в стиле постера ZERO: широкая капсула-подложка + диагональный телефон */
-        .zero-style-stage {
+        .phone-liquid-stage {
             position: relative;
             width: 100%;
-            max-width: 560px;
-            height: 235px;
+            max-width: 460px;
+            height: 258px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            margin-top: 4px;
+            margin: 0 auto;
+            overflow: visible;
         }
 
-        /* Широкая скругленная плашка позади телефона (как синий блок на картинке ZERO, но в космическом красном стиле) */
-        .zero-backdrop-card {
+        /* 1) Верхняя левая стеклянная плашка (позади верхнего края телефона) */
+        .liquid-chip-top-left {
             position: absolute;
-            width: 100%;
-            height: 148px;
-            bottom: 18px;
-            border-radius: 26px;
-            background: 
-                radial-gradient(circle at 75% 25%, rgba(255, 70, 110, 0.45) 0%, transparent 55%),
-                linear-gradient(135deg, rgba(165, 8, 42, 0.55) 0%, rgba(35, 3, 12, 0.78) 100%);
-            border: 1px solid rgba(255, 110, 140, 0.28);
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.75),
-                0 0 60px rgba(255, 18, 64, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.25);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 14px 18px;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        /* Точечная космическая текстура внутри плашки */
-        .zero-backdrop-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
-            background-size: 12px 12px;
-            opacity: 0.45;
-            pointer-events: none;
-        }
-
-        .backdrop-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+            top: 6px;
+            left: 4px;
             z-index: 2;
+            padding: 8px 13px;
+            border-radius: 15px;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: rgba(255, 255, 255, 0.92);
         }
 
-        .space-tag {
+        /* 2) Правая плашка ПОЗАДИ телефона (телефон справа выпирает поверх неё и выглядывает краем) */
+        .liquid-chip-right-under {
+            position: absolute;
+            top: 38px;
+            right: -2px;
+            z-index: 2; /* Ниже телефона (у телефона z-index: 4) */
+            width: 156px;
+            padding: 10px 12px 10px 26px;
+            border-radius: 18px;
+            text-align: right;
+            background: rgba(18, 7, 11, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+        }
+
+        .liquid-chip-right-under strong {
+            display: block;
             font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            color: #FFFFFF;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .liquid-chip-right-under span {
+            font-size: 10.5px;
+            color: var(--text-secondary);
+            line-height: 1.15;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* 3) Нижняя правая красная плашка позади правого борта телефона (как "Подвоєння продажів 2x" на примере) */
+        .liquid-chip-red-right {
+            position: absolute;
+            bottom: 42px;
+            right: 0px;
+            z-index: 2; /* Ниже телефона — правый край телефона проходит над ней */
+            padding: 10px 13px 10px 28px;
+            border-radius: 17px;
+            text-align: right;
+        }
+
+        .liquid-chip-red-right .corner-badge {
+            position: absolute;
+            top: -8px;
+            right: 8px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            color: #FFFFFF;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .liquid-chip-red-right strong {
+            display: block;
+            font-family: 'Manrope', sans-serif;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #FFFFFF;
+            line-height: 1.15;
+        }
+
+        .liquid-chip-red-right span {
             font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255, 255, 255, 0.86);
         }
 
-        .free-pill-badge {
-            padding: 4px 10px;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            font-family: 'Manrope', sans-serif;
-            font-size: 10.5px;
-            font-weight: 800;
-            color: #FFFFFF;
-            box-shadow: 0 4px 14px rgba(255, 18, 64, 0.4);
-        }
-
-        .backdrop-bottom-brand {
+        /* 4) ТЕЛЕФОН: смещен правее и наклонен; слева виден полностью ПОД левой стеклянной плашкой, а справа выпирает его край */
+        .stage-tilted-phone {
             position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            max-width: 42%;
-        }
-
-        .backdrop-bottom-brand strong {
-            font-family: 'Manrope', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-            color: #FFFFFF;
-        }
-
-        .backdrop-bottom-brand span {
-            font-size: 10.5px;
-            line-height: 1.25;
-            color: rgba(255, 255, 255, 0.68);
-        }
-
-        /* Сам телефон в точном диагональном наклоне как на референсе ZERO */
-        .zero-tilted-phone {
-            position: relative;
-            z-index: 3;
-            width: 196px;
-            transform: perspective(1000px) rotate(-25deg) rotateX(14deg) rotateY(10deg) translateY(-6px);
+            z-index: 4; /* Выше правых плашек (2), но НИЖЕ левой Liquid Glass плашки (6) */
+            width: 232px;
+            margin-left: 34px; /* Смещение вправо как на примере */
+            margin-top: 8px;
+            transform: perspective(1050px) rotate(-14deg) rotateX(8deg) rotateY(-6deg);
             transition: transform 0.45s var(--apple-ease);
+            mask-image: linear-gradient(to top, transparent 2%, black 26%, black 100%);
+            -webkit-mask-image: linear-gradient(to top, transparent 2%, black 26%, black 100%);
             filter: 
-                drop-shadow(0 26px 32px rgba(0, 0, 0, 0.9))
-                drop-shadow(0 0 28px rgba(255, 18, 64, 0.35));
+                drop-shadow(-14px 20px 30px rgba(0, 0, 0, 0.92))
+                drop-shadow(0 0 26px rgba(255, 18, 62, 0.3));
         }
 
-        .zero-tilted-phone img {
+        .stage-tilted-phone img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 24px;
+            border-radius: 26px;
         }
 
-        /* ЗАГОЛОВОК СНИЗУ ТЕЛЕФОНА, ЧУТЬ-ЧУТЬ ПЕРЕКРЫВАЮЩИЙ ЕГО (Z-INDEX ВЫШЕ ТЕЛЕФОНА) */
+        /* 5) ЛЕВАЯ LIQUID GLASS ПЛАШКА iOS 27 — ЛЕЖИТ ПОВЕРХ ТЕЛЕФОНА (телефон отчетливо виден ПОД ней через блюр) */
+        .liquid-chip-left-over {
+            position: absolute;
+            bottom: 52px;
+            left: 2px;
+            z-index: 6; /* Поверх телефона! */
+            width: 158px;
+            padding: 12px 14px;
+            border-radius: 20px;
+            transition: transform 0.3s var(--apple-ease);
+        }
+
+        .liquid-chip-left-over .bookmark-pin {
+            position: absolute;
+            top: -7px;
+            left: 12px;
+            width: 14px;
+            height: 18px;
+            color: #FFFFFF;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+        }
+
+        .liquid-chip-left-over strong {
+            display: block;
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.12;
+            color: #FFFFFF;
+            margin-bottom: 2px;
+        }
+
+        .liquid-chip-left-over span {
+            display: block;
+            font-size: 11px;
+            line-height: 1.18;
+            letter-spacing: -0.015em;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* =========================================================
+           ЗАГОЛОВОК ПОВЕРХ НИЗА ТЕЛЕФОНА (ПЛОТНАЯ ДИСТАНЦИЯ МЕЖДУ СЛОВАМИ)
+           ========================================================= */
         .overlapping-title-block {
             position: relative;
-            z-index: 6;
-            margin-top: -34px; /* Наезжает снизу на край телефона, но оставляет экран открытым */
+            z-index: 7;
+            margin-top: -32px; /* Чуть-чуть закрывает низ телефона, оставляя экран видимым */
             text-align: center;
-            padding: 0 8px;
-            margin-bottom: 10px;
-            pointer-events: none;
+            padding: 0 6px;
+            margin-bottom: 8px;
         }
 
         .hero-heading {
             font-family: 'Manrope', sans-serif;
-            font-size: 27px;
+            font-size: 26px;
             font-weight: 800;
-            letter-spacing: -0.035em;
-            line-height: 1.08;
+            letter-spacing: -0.045em;
+            word-spacing: -0.04em; /* Уменьшенная дистанция между словами */
+            line-height: 1.02; /* Уменьшенная дистанция сверху и снизу */
             color: #FFFFFF;
             text-shadow: 
-                0 6px 22px rgba(0, 0, 0, 0.98),
-                0 2px 8px rgba(0, 0, 0, 0.95),
-                0 0 28px rgba(255, 18, 64, 0.45);
-            margin-bottom: 5px;
+                0 6px 20px rgba(0, 0, 0, 0.98),
+                0 2px 8px rgba(0, 0, 0, 0.96),
+                0 0 24px rgba(255, 18, 62, 0.5);
+            margin-bottom: 4px;
         }
 
         .hero-heading em {
             font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 1.14em;
+            font-size: 1.12em;
             color: #FF6B8B;
-            padding: 0 2px;
+            padding: 0 1px;
         }
 
         .hero-subtitle {
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 1.38;
+            font-size: 12.5px;
+            font-weight: 500;
+            line-height: 1.24;
+            letter-spacing: -0.02em;
+            word-spacing: -0.02em;
             color: var(--text-secondary);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
         }
 
-        /* БЛОК ИЗ 3 КНОПОК СНИЗУ (ВСЕ ВИДНЫ СРАЗУ, МАЛЕНЬКОЕ РАССТОЯНИЕ) */
+        /* =========================================================
+           ВСЕ 3 КНОПКИ СНИЗУ В СТИЛЕ iOS 27 LIQUID GLASS
+           ========================================================= */
         .interaction-dock {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             position: relative;
-            z-index: 7;
+            z-index: 8;
             display: flex;
             flex-direction: column;
-            gap: 9px;
+            gap: 8px;
         }
 
-        /* Кнопка 1: Главный Telegram-бот */
+        /* Кнопка 1: Главный бот (Яркая красная Liquid-капсула как на референсе + белая кнопка) */
         .waitlist-style-dock {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            padding: 13px 14px 13px 16px;
+            gap: 10px;
+            padding: 11px 12px 11px 14px;
             border-radius: 20px;
             text-decoration: none;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.035) 100%);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 
-                0 16px 40px rgba(0, 0, 0, 0.65),
-                0 0 35px -10px rgba(255, 18, 64, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
             position: relative;
             overflow: hidden;
-            transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s var(--apple-ease), box-shadow 0.25s ease;
         }
 
         .waitlist-style-dock:hover {
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 45px -8px rgba(255, 18, 64, 0.45);
+            box-shadow: 0 20px 46px rgba(255, 18, 62, 0.52), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65);
         }
 
         .dock-info {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
             position: relative;
             z-index: 2;
         }
@@ -485,32 +603,35 @@
         .dock-label-row {
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
         }
 
         .tg-mini-badge {
-            width: 19px;
-            height: 19px;
+            width: 18px;
+            height: 18px;
             border-radius: 6px;
-            background: rgba(255, 18, 64, 0.24);
-            border: 1px solid rgba(255, 18, 64, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FF4D73;
+            color: #FFFFFF;
         }
 
         .dock-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 14.5px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
             color: #FFFFFF;
         }
 
         .dock-sub {
-            font-size: 12px;
-            color: var(--text-secondary);
+            font-size: 11.5px;
+            line-height: 1.15;
+            letter-spacing: -0.015em;
+            color: rgba(255, 255, 255, 0.86);
         }
 
         .white-pill-btn {
@@ -518,15 +639,16 @@
             z-index: 2;
             background: #FFFFFF;
             color: #060609;
-            font-size: 12.5px;
-            font-weight: 700;
-            padding: 10px 16px;
-            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            padding: 9px 14px;
+            border-radius: 12px;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             white-space: nowrap;
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.24);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
             transition: transform 0.2s ease;
         }
 
@@ -534,32 +656,27 @@
             transform: scale(1.03);
         }
 
-        /* Кнопки 2 и 3: Наш канал и Поддержка */
+        /* Кнопки 2 и 3: Наш канал и Поддержка (iOS 27 Liquid Glass) */
         .secondary-bento-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 9px;
+            gap: 8px;
         }
 
         .glass-tile {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 10px;
-            padding: 12px 14px;
+            gap: 8px;
+            padding: 11px 13px;
             border-radius: 18px;
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.25s var(--apple-ease), background 0.25s ease, border-color 0.25s ease;
+            transition: transform 0.25s var(--apple-ease), border-color 0.25s ease;
         }
 
         .glass-tile:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 18, 64, 0.45);
+            border-color: rgba(255, 255, 255, 0.42);
         }
 
         .tile-top {
@@ -569,53 +686,55 @@
         }
 
         .tile-orb-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.18), rgba(255, 255, 255, 0.03));
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, rgba(255, 18, 62, 0.28), rgba(255, 255, 255, 0.06));
+            border: 1px solid rgba(255, 255, 255, 0.22);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FF3B63;
+            color: #FF4D73;
         }
 
         .tile-corner-arrow {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
+            color: var(--text-secondary);
         }
 
         .tile-bottom {
             display: flex;
             flex-direction: column;
-            gap: 1px;
+            gap: 0px;
         }
 
         .tile-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 13.5px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
             color: #FFFFFF;
         }
 
         .tile-handle {
-            font-size: 11.5px;
+            font-size: 11px;
             color: var(--text-muted);
         }
 
         /* =========================================================
-           4. КОМПАКТНЫЙ КОСМИЧЕСКИЙ МОСТ (LUMINA CORE)
+           4. КОМПАКТНЫЙ МОСТ И 3 LIQUID GLASS ПЛАШКИ ПРЕИМУЩЕСТВ
            ========================================================= */
         .lumina-bridge-section {
             position: relative;
             z-index: 5;
-            padding: 26px 8px 0;
+            padding: 18px 6px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -625,32 +744,34 @@
         .horizon-glow-divider {
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 18, 64, 0.55) 50%, transparent 100%);
-            margin-bottom: 22px;
-            box-shadow: 0 0 25px 1px rgba(255, 18, 64, 0.4);
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 18, 62, 0.6) 50%, transparent 100%);
+            margin-bottom: 14px;
+            box-shadow: 0 0 20px 1px rgba(255, 18, 62, 0.4);
         }
 
         .bridge-statement {
             font-family: 'Manrope', sans-serif;
-            font-size: 19px;
-            font-weight: 700;
-            line-height: 1.28;
-            letter-spacing: -0.02em;
-            max-width: 580px;
+            font-size: 17.5px;
+            font-weight: 800;
+            line-height: 1.16;
+            letter-spacing: -0.03em;
+            word-spacing: -0.03em;
+            max-width: 520px;
             color: #FFFFFF;
-            margin-bottom: 18px;
+            margin-bottom: 12px;
         }
 
         .bridge-statement span.muted-part {
-            color: rgba(255, 255, 255, 0.52);
+            color: rgba(255, 255, 255, 0.56);
+            font-weight: 600;
         }
 
         .bridge-statement em {
             font-family: 'Instrument Serif', Georgia, serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 1.16em;
-            color: #FF4D73;
+            font-size: 1.14em;
+            color: #FF5C7F;
         }
 
         .core-node-wrapper {
@@ -660,40 +781,34 @@
         }
 
         .core-squircle-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 17px;
-            background: linear-gradient(145deg, #1b050a 0%, #090204 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 18, 64, 0.45);
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: floatIcon 4s ease-in-out infinite;
+            animation: floatIcon 3.5s ease-in-out infinite;
         }
 
         .core-squircle-icon img {
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             object-fit: contain;
         }
 
         .laser-stem {
             width: 2px;
-            height: 38px;
-            background: linear-gradient(180deg, rgba(255, 18, 64, 0.9) 0%, #FFFFFF 100%);
-            box-shadow: 0 0 14px #FF1240;
+            height: 26px;
+            background: linear-gradient(180deg, rgba(255, 18, 62, 0.9) 0%, #FFFFFF 100%);
+            box-shadow: 0 0 12px #FF123E;
         }
 
-        /* =========================================================
-           5. РОВНО 3 ЕМКИЕ ПЛАШКИ (МАКСИМУМ ИНФОРМАЦИИ ВНУТРИ)
-           ========================================================= */
         .bento-showcase-container {
             position: relative;
             z-index: 5;
             width: 100%;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.16);
+            padding-top: 14px;
         }
 
         .bento-showcase-container::before {
@@ -702,83 +817,81 @@
             top: -1px;
             left: 50%;
             transform: translateX(-50%);
-            width: 220px;
+            width: 180px;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #FFFFFF, #FF1240, #FFFFFF, transparent);
-            box-shadow: 0 0 20px #FF1240;
+            background: linear-gradient(90deg, transparent, #FFFFFF, #FF123E, #FFFFFF, transparent);
+            box-shadow: 0 0 18px #FF123E;
         }
 
         .bento-grid-three {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
         .bento-card {
             position: relative;
-            border-radius: 22px;
-            padding: 18px 18px;
-            background: 
-                radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 0%), rgba(255, 18, 64, 0.15), transparent 45%),
-                rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 15px 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
             transition: transform 0.35s var(--apple-ease), border-color 0.35s ease;
         }
 
         .bento-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 18, 64, 0.45);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.38);
         }
 
         .bento-top-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
         .bento-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
+            gap: 5px;
+            padding: 3px 9px;
             border-radius: 100px;
-            background: rgba(255, 18, 64, 0.15);
-            border: 1px solid rgba(255, 18, 64, 0.32);
-            color: #FF7592;
-            font-size: 11px;
+            background: rgba(255, 18, 62, 0.2);
+            border: 1px solid rgba(255, 18, 62, 0.4);
+            color: #FF859F;
+            font-size: 10.5px;
             font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
         .bento-stat-pill {
             font-family: 'Manrope', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             color: #FFFFFF;
-            padding: 4px 10px;
+            padding: 3px 9px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
 
         .bento-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 18px;
+            font-size: 16.5px;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            word-spacing: -0.02em;
             color: #FFFFFF;
-            line-height: 1.2;
+            line-height: 1.12;
         }
 
         .bento-desc {
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 12.5px;
+            line-height: 1.38;
+            letter-spacing: -0.015em;
             color: var(--text-secondary);
         }
 
@@ -787,23 +900,22 @@
             font-weight: 600;
         }
 
-        /* Плотные информационные теги внутри 3 карточек */
         .dense-tags-wrap {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 5px;
             padding-top: 2px;
         }
 
         .info-chip {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 11px;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 11.5px;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 9px;
+            background: rgba(0, 0, 0, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-size: 11px;
             font-weight: 600;
             color: #FFFFFF;
         }
@@ -817,120 +929,134 @@
         }
 
         .info-chip.accent-chip {
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.25), rgba(255, 18, 64, 0.08));
-            border-color: rgba(255, 18, 64, 0.45);
-        }
-
-        /* Третья плашка (акцентная с кнопкой запуска теста) */
-        .bento-card.highlight-trial-card {
-            background: 
-                radial-gradient(circle at 85% 20%, rgba(255, 18, 64, 0.28), transparent 55%),
-                linear-gradient(135deg, rgba(255, 18, 64, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-            border-color: rgba(255, 18, 64, 0.35);
-        }
-
-        .trial-action-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding-top: 4px;
-        }
-
-        .inline-bot-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 11px 18px;
-            border-radius: 12px;
-            background: #FFFFFF;
-            color: #060609;
-            font-family: 'Manrope', sans-serif;
-            font-size: 13px;
-            font-weight: 800;
-            text-decoration: none;
-            box-shadow: 0 8px 22px rgba(255, 255, 255, 0.2);
-            transition: transform 0.2s ease;
-        }
-
-        .inline-bot-btn:hover {
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(255, 18, 62, 0.32), rgba(255, 18, 62, 0.1));
+            border-color: rgba(255, 18, 62, 0.5);
         }
 
         /* =========================================================
-           6. КОМПАКТНЫЙ ФУТЕР С INSTAGRAM @alpanapp
+           5. КНОПКА «ПЕРЕЙТИ В БОТА» (КАК НА РЕФЕРЕНСЕ) ПЕРЕД ИНСТАГРАМОМ
            ========================================================= */
         .social-footer-section {
             position: relative;
             z-index: 5;
-            margin-top: 14px;
+            margin-top: 12px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
         }
 
+        /* Красная кнопка с белым квадратом и стрелкой 1-в-1 как на референсе */
+        .reference-red-cta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 18px;
+            text-decoration: none;
+            transition: transform 0.25s var(--apple-ease), box-shadow 0.25s ease;
+        }
+
+        .reference-red-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 44px rgba(255, 18, 62, 0.55), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.65);
+        }
+
+        .cta-white-square {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: #090305;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .cta-red-texts {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .cta-red-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.12;
+            color: #FFFFFF;
+        }
+
+        .cta-red-sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: -0.01em;
+        }
+
+        /* Плашка Instagram @alpanapp */
         .insta-banner-card {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            padding: 14px 16px;
-            border-radius: 20px;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 18px;
             text-decoration: none;
-            background: linear-gradient(135deg, rgba(255, 18, 64, 0.14) 0%, rgba(255, 255, 255, 0.03) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
             transition: transform 0.25s var(--apple-ease), border-color 0.25s ease;
         }
 
         .insta-banner-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(255, 18, 64, 0.48);
+            border-color: rgba(255, 255, 255, 0.42);
         }
 
         .insta-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .insta-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #FF1240 0%, #9E0020 100%);
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #FF123E 0%, #9E0020 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
-            box-shadow: 0 6px 16px rgba(255, 18, 64, 0.4);
+            box-shadow: 0 6px 14px rgba(255, 18, 62, 0.4);
             flex-shrink: 0;
         }
 
         .insta-title {
             font-family: 'Manrope', sans-serif;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.12;
             color: #FFFFFF;
             display: block;
         }
 
         .insta-sub {
-            font-size: 11.5px;
+            font-size: 11px;
             color: var(--text-secondary);
         }
 
         .insta-pill-tag {
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 100px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #FFFFFF;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11.5px;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             white-space: nowrap;
         }
 
@@ -939,9 +1065,9 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            padding: 4px 4px 0;
-            font-size: 11px;
+            gap: 6px;
+            padding: 2px 4px 0;
+            font-size: 10.5px;
             color: var(--text-muted);
         }
 
@@ -952,22 +1078,22 @@
             opacity: 0;
             filter: blur(10px);
             transition: 
-                opacity 0.85s var(--apple-ease),
-                transform 0.85s var(--apple-ease),
-                filter 0.85s var(--apple-ease);
+                opacity 0.7s var(--apple-ease),
+                transform 0.7s var(--apple-ease),
+                filter 0.7s var(--apple-ease);
             will-change: opacity, transform, filter;
         }
 
         .apple-fade-left {
-            transform: translate3d(-48px, 12px, 0) scale(0.96);
+            transform: translate3d(-40px, 10px, 0) scale(0.96);
         }
 
         .apple-fade-right {
-            transform: translate3d(48px, 12px, 0) scale(0.96);
+            transform: translate3d(40px, 10px, 0) scale(0.96);
         }
 
         .apple-fade-up {
-            transform: translate3d(0, 38px, 0) scale(0.97);
+            transform: translate3d(0, 32px, 0) scale(0.97);
         }
 
         .apple-reveal.is-visible {
@@ -977,21 +1103,15 @@
         }
 
         /* Keyframes */
-        @keyframes introLogoPop {
-            0% { opacity: 0; transform: scale(0.7); }
-            45% { opacity: 1; transform: scale(1.04); }
-            100% { opacity: 1; transform: scale(1); }
+        @keyframes logoGlintPop {
+            0% { opacity: 0; transform: scale(0.82); filter: blur(8px); }
+            45% { opacity: 1; transform: scale(1.03); filter: blur(0px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0px); }
         }
 
-        @keyframes introShockwave {
-            0% { transform: scale(0.9); opacity: 0.9; }
-            100% { transform: scale(1.65); opacity: 0; }
-        }
-
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(6px); }
-            40%, 80% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; }
+        @keyframes sweepGlint {
+            0% { transform: translateX(-130%) skewX(-20deg); }
+            100% { transform: translateX(140%) skewX(-20deg); }
         }
 
         @keyframes pulseGlow {
@@ -1001,57 +1121,59 @@
 
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-4px); }
         }
 
         /* =========================================================
-           ДЕСКТОПНАЯ ВЕРСИЯ (КОМПАКТНАЯ И ВЫРАЗИТЕЛЬНАЯ)
+           ДЕСКТОПНАЯ АДАПТАЦИЯ
            ========================================================= */
         @media (min-width: 860px) {
             body {
-                padding: 20px;
+                padding: 18px;
             }
 
             .showcase-window {
-                padding: 20px 40px 32px;
-                border-radius: 34px;
+                padding: 18px 36px 26px;
+                border-radius: 32px;
             }
 
-            .zero-style-stage {
-                max-width: 680px;
-                height: 280px;
+            .phone-liquid-stage {
+                max-width: 540px;
+                height: 300px;
             }
 
-            .zero-backdrop-card {
-                height: 175px;
-                padding: 18px 24px;
+            .stage-tilted-phone {
+                width: 270px;
+                margin-left: 42px;
             }
 
-            .zero-tilted-phone {
-                width: 235px;
+            .liquid-chip-left-over {
+                width: 185px;
+                padding: 14px 16px;
+                bottom: 62px;
+            }
+
+            .liquid-chip-right-under {
+                width: 180px;
+                padding: 12px 14px 12px 30px;
             }
 
             .overlapping-title-block {
-                margin-top: -42px;
-                margin-bottom: 14px;
+                margin-top: -38px;
+                margin-bottom: 10px;
             }
 
             .hero-heading {
-                font-size: 38px;
-            }
-
-            .hero-subtitle {
-                font-size: 14.5px;
+                font-size: 34px;
             }
 
             .interaction-dock {
-                max-width: 560px;
+                max-width: 520px;
             }
 
-            /* На ПК: 2 плашки сверху (слева и справа) и 1 широкая снизу — всего 3 плашки */
             .bento-grid-three {
                 grid-template-columns: 1fr 1fr;
-                gap: 14px;
+                gap: 12px;
             }
 
             .bento-span-full {
@@ -1062,12 +1184,11 @@
 </head>
 <body>
 
-    <!-- 1. СЕКУНДНЫЙ ЧЕРНЫЙ ЭКРАН-ЗАГРУЗЧИК С ЛОГОТИПОМ -->
+    <!-- 1. ЧЕРНЫЙ ЭКРАН-ЗАГРУЗЧИК: ТОЛЬКО БЕЛОЕ ЛОГО БЕЗ НАДПИСЕЙ И ПЛАШЕК -->
     <div class="space-intro-loader" id="spaceIntro">
-        <div class="intro-logo-wrap">
-            <img src="logo.png" alt="ALPAN VPN">
+        <div class="pure-logo-glint">
+            <img src="logo.png" alt="ALPAN">
         </div>
-        <span class="intro-boot-text">ALPAN SPACE NODE</span>
     </div>
 
     <!-- 2. КОСМИЧЕСКИЙ ФОН С МЕДЛЕННО ЛЕТЯЩИМИ ЗВЕЗДАМИ -->
@@ -1076,11 +1197,10 @@
 
     <!-- ГЛАВНЫЙ КОНТЕЙНЕР -->
     <div class="showcase-window">
-        <div class="cyber-grid-overlay" aria-hidden="true"></div>
 
-        <!-- ВЕРХНЯЯ КАПСУЛА -->
+        <!-- ВЕРХНЯЯ КАПСУЛА (iOS 27 Liquid Glass) -->
         <header class="top-pill-wrapper">
-            <nav class="floating-nav-pill">
+            <nav class="floating-nav-pill ios27-liquid">
                 <div class="nav-brand">
                     <div class="nav-logo-circle">
                         <img src="logo.png" alt="ALPAN">
@@ -1095,33 +1215,59 @@
             </nav>
         </header>
 
-        <!-- ПЕРВЫЙ ЭКРАН: ТЕЛЕФОН КАК НА РЕФЕРЕНСЕ ZERO + НАДПИСЬ СНИЗУ ВНАХЛЕСТ + 3 КНОПКИ -->
+        <!-- ПЕРВЫЙ ЭКРАН: ПЛАШКА «5 ДНЕЙ» + ТЕЛЕФОН С LIQUID КАРТОЧКАМИ КАК НА ПРИМЕРЕ + 3 КНОПКИ -->
         <section class="hero-section">
             
-            <!-- Сцена с диагональным телефоном и широкой капсулой сзади -->
-            <div class="zero-style-stage" id="phoneScene">
-                <div class="zero-backdrop-card apple-reveal apple-fade-up is-visible">
-                    <div class="backdrop-top-row">
-                        <span class="space-tag">STEALTH PROTOCOL • 2026</span>
-                        <span class="free-pill-badge">✦ 5 дней бесплатно</span>
-                    </div>
-                    <div class="backdrop-bottom-brand">
-                        <strong>ALPAN™</strong>
-                        <span>Космическая скорость и обход глушилок.</span>
-                    </div>
-                </div>
-
-                <!-- Сам телефон в диагональном положении с картинки-референса -->
-                <div class="zero-tilted-phone" id="tiltedPhone">
-                    <img src="logo2.png" onerror="this.onerror=null; this.src='logo1.png';" alt="ALPAN VPN в Telegram">
+            <!-- Двойная плашка сверху как на референсе -->
+            <div class="split-promo-banner apple-reveal apple-fade-up is-visible">
+                <div class="split-promo-left">5 ДНЕЙ</div>
+                <div class="split-promo-right">
+                    <span><strong>бесплатного доступа</strong> без лимитов трафика и скорости в боте</span>
                 </div>
             </div>
 
-            <!-- Надпись снизу, которая чуть-чуть закрывает телефон, но оставляет его видимым -->
+            <!-- Сцена: Телефон справа выпирает краем, а слева перекрыт прозрачной Liquid Glass плашкой iOS 27 -->
+            <div class="phone-liquid-stage" id="phoneScene">
+                
+                <!-- Верхняя левая плашка -->
+                <div class="liquid-chip-top-left ios27-liquid apple-reveal apple-fade-left is-visible">
+                    Обход белых списков
+                </div>
+
+                <!-- Правая верхняя плашка (ПОД телефоном, телефон справа выпирает над ней) -->
+                <div class="liquid-chip-right-under apple-reveal apple-fade-right is-visible">
+                    <strong>Gemini & Claude</strong>
+                    <span>ИИ и сервисы без блоков</span>
+                </div>
+
+                <!-- Правая нижняя красная плашка (ПОД правым краем телефона) -->
+                <div class="liquid-chip-red-right ios27-liquid-crimson apple-reveal apple-fade-right is-visible">
+                    <span class="corner-badge">3x</span>
+                    <strong>До 3 устройств</strong>
+                    <span>Телефон • ПК • ТВ</span>
+                </div>
+
+                <!-- ТЕЛЕФОН: смещен вправо, левая сторона видна под стеклом, правый край выпирает -->
+                <div class="stage-tilted-phone" id="tiltedPhone">
+                    <img src="logo2.png" onerror="this.onerror=null; this.src='logo1.png';" alt="ALPAN VPN в Telegram">
+                </div>
+
+                <!-- ЛЕВАЯ LIQUID GLASS ПЛАШКА iOS 27 — ЛЕЖИТ ПОВЕРХ ЛЕВОЙ ЧАСТИ ТЕЛЕФОНА -->
+                <div class="liquid-chip-left-over ios27-liquid apple-reveal apple-fade-left is-visible">
+                    <svg class="bookmark-pin" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 2h12a2 2 0 0 1 2 2v18l-8-4-8 4V4a2 2 0 0 1 2-2z"/>
+                    </svg>
+                    <strong>Безлимит ∞ ГБ</strong>
+                    <span>Инст, Ютуб 4K и ТГ без глушилок</span>
+                </div>
+
+            </div>
+
+            <!-- Надпись снизу внахлест на телефон (плотное расстояние между словами и строками) -->
             <div class="overlapping-title-block apple-reveal apple-fade-up is-visible">
                 <h1 class="hero-heading">Свободный доступ <em>без</em> ограничений</h1>
                 <p class="hero-subtitle">
-                    Стабильно рабочие обходы глушилок и белых списков в 1 клик.
+                    Стабильно рабочие обходы глушилок и легкое подключение.
                 </p>
             </div>
 
@@ -1129,7 +1275,7 @@
             <div class="interaction-dock">
                 
                 <!-- Кнопка 1: Бот -->
-                <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="waitlist-style-dock apple-reveal apple-fade-left is-visible">
+                <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="waitlist-style-dock ios27-liquid-crimson apple-reveal apple-fade-left is-visible">
                     <div class="dock-info">
                         <div class="dock-label-row">
                             <span class="tg-mini-badge">
@@ -1144,7 +1290,7 @@
 
                     <span class="white-pill-btn">
                         Подключить
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="7" y1="17" x2="17" y2="7"></line>
                             <polyline points="7 7 17 7 17 17"></polyline>
                         </svg>
@@ -1154,15 +1300,15 @@
                 <!-- Кнопки 2 и 3: Канал и Поддержка -->
                 <div class="secondary-bento-row">
                     
-                    <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="glass-tile apple-reveal apple-fade-left is-visible">
+                    <a href="https://t.me/alpanvpn" target="_blank" rel="noopener" class="glass-tile ios27-liquid apple-reveal apple-fade-left is-visible">
                         <div class="tile-top">
                             <div class="tile-orb-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                                 </svg>
                             </div>
                             <div class="tile-corner-arrow">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="7" y1="17" x2="17" y2="7"></line>
                                     <polyline points="7 7 17 7 17 17"></polyline>
                                 </svg>
@@ -1174,15 +1320,15 @@
                         </div>
                     </a>
 
-                    <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="glass-tile apple-reveal apple-fade-right is-visible">
+                    <a href="https://t.me/AlpanSupport" target="_blank" rel="noopener" class="glass-tile ios27-liquid apple-reveal apple-fade-right is-visible">
                         <div class="tile-top">
                             <div class="tile-orb-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                                 </svg>
                             </div>
                             <div class="tile-corner-arrow">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="7" y1="17" x2="17" y2="7"></line>
                                     <polyline points="7 7 17 7 17 17"></polyline>
                                 </svg>
@@ -1198,36 +1344,36 @@
             </div>
         </section>
 
-        <!-- КОМПАКТНЫЙ ПЕРЕХОД С ИКОНКОЙ ЯДРА -->
+        <!-- КОМПАКТНЫЙ МОСТ С ИКОНКОЙ -->
         <section class="lumina-bridge-section apple-reveal apple-fade-up">
             <div class="horizon-glow-divider" aria-hidden="true"></div>
 
             <h2 class="bridge-statement">
-                Выходите в сеть даже тогда, когда <em>всё остальное</em> заблокировано. 
-                <span class="muted-part">Вся мощь в 3 главных преимуществах:</span>
+                Выходите в сеть, когда <em>всё остальное</em> заблокировано. 
+                <span class="muted-part">Главные преимущества ALPAN:</span>
             </h2>
 
             <div class="core-node-wrapper">
-                <div class="core-squircle-icon">
+                <div class="core-squircle-icon ios27-liquid">
                     <img src="logo.png" alt="ALPAN Core">
                 </div>
                 <div class="laser-stem"></div>
             </div>
         </section>
 
-        <!-- РОВНО 3 НАСЫЩЕННЫЕ ПЛАШКИ (APPLE FADE-IN СЛЕВА, СПРАВА И СНИЗУ) -->
+        <!-- РОВНО 3 LIQUID GLASS ПЛАШКИ С МАКСИМУМОМ ИНФОРМАЦИИ -->
         <section class="bento-showcase-container">
             <div class="bento-grid-three">
 
-                <!-- ПЛАШКА 1 (ВЫЕЗД СЛЕВА): ОБХОД БЕЛЫХ СПИСКОВ, ГЛУШИЛОК + БЕЗЛИМИТ -->
-                <article class="bento-card apple-reveal apple-fade-left">
+                <!-- ПЛАШКА 1 (СЛЕВА): ОБХОД БЕЛЫХ СПИСКОВ, ГЛУШИЛОК + БЕЗЛИМИТ -->
+                <article class="bento-card ios27-liquid apple-reveal apple-fade-left">
                     <div class="bento-top-bar">
                         <span class="bento-badge">01 • Анти-глушилки & Безлимит</span>
                         <span class="bento-stat-pill">∞ ГБ Трафика</span>
                     </div>
                     <h3 class="bento-title">Обход «белых списков» без лимитов скорости</h3>
                     <p class="bento-desc">
-                        Помогает вообще <strong>выйти в сеть</strong>, когда провайдеры и мобильные операторы включают жесткие глушилки. Без обхода не работают базовые сервисы — с нами всё летает в 4K без ограничений по гигабайтам.
+                        Помогает вообще <strong>выйти в сеть</strong> при жестких глушилках, когда не открываются базовые приложения. Полный безлимит трафика для видео в 4K и соцсетей.
                     </p>
                     <div class="dense-tags-wrap">
                         <span class="info-chip"><span class="ok-dot"></span>Instagram</span>
@@ -1237,58 +1383,66 @@
                     </div>
                 </article>
 
-                <!-- ПЛАШКА 2 (ВЫЕЗД СПРАВА): GEMINI, CLAUDE, ИИ + ВСЕ УСТРОЙСТВА, HAPP И ТВ -->
-                <article class="bento-card apple-reveal apple-fade-right">
+                <!-- ПЛАШКА 2 (СПРАВА): GEMINI, CLAUDE, ИИ + ВСЕ УСТРОЙСТВА, HAPP И ТВ -->
+                <article class="bento-card ios27-liquid apple-reveal apple-fade-right">
                     <div class="bento-top-bar">
                         <span class="bento-badge">02 • Мировые ИИ & Все платформы</span>
                         <span class="bento-stat-pill">Happ + Smart TV</span>
                     </div>
                     <h3 class="bento-title">Доступ к Gemini и Claude • Работает даже на ТВ</h3>
                     <p class="bento-desc">
-                        Чистые зарубежные локации открывают <strong>Google Gemini, Claude, ChatGPT и Cloud-сервисы</strong> без региональных блокировок. Подключайтесь на телефонах, ПК и <strong>Smart TV / Android TV</strong> через удобное приложение <strong>Happ</strong>.
+                        Открывает <strong>Google Gemini, Claude, ChatGPT и Cloud</strong> без региональных ограничений. Работает везде: на смартфонах, ПК и <strong>Smart TV / Android TV</strong> через удобный клиент <strong>Happ</strong>.
                     </p>
                     <div class="dense-tags-wrap">
                         <span class="info-chip accent-chip">✦ Gemini & Claude</span>
                         <span class="info-chip">⚡ Клиент Happ</span>
-                        <span class="info-chip">📺 Android TV / Smart TV</span>
+                        <span class="info-chip">📺 Smart TV</span>
                         <span class="info-chip">📱 iOS • Android • ПК</span>
                     </div>
                 </article>
 
-                <!-- ПЛАШКА 3 (ВЫЕЗД СНИЗУ): 3 УСТРОЙСТВА + 5 ДНЕЙ БЕСПЛАТНО В БОТЕ -->
-                <article class="bento-card bento-span-full highlight-trial-card apple-reveal apple-fade-up">
+                <!-- ПЛАШКА 3 (СНИЗУ): 3 УСТРОЙСТВА + 5 ДНЕЙ БЕСПЛАТНО -->
+                <article class="bento-card bento-span-full ios27-liquid apple-reveal apple-fade-up">
                     <div class="bento-top-bar">
                         <span class="bento-badge">03 • Свобода подключения</span>
-                        <span class="bento-stat-pill">3 устройства + расширение</span>
+                        <span class="bento-stat-pill">3 устройства + 5 дней теста</span>
                     </div>
                     <h3 class="bento-title">Сразу 3 устройства на подписку и 5 дней бесплатно</h3>
                     <p class="bento-desc">
-                        Подключайте одновременно <strong>телефон, ноутбук и телевизор</strong> (а если нужно больше — дополнительные слоты легко докупаются прямо в боте). Все ответы по настройке и <strong>5 бесплатных дней теста</strong> ждут вас внутри Telegram-бота.
+                        Подключайте одновременно <strong>телефон, ноутбук и телевизор</strong> (дополнительные устройства легко докупаются в боте). Все инструкции и <strong>5 бесплатных дней</strong> выдаются автоматически.
                     </p>
-                    <div class="trial-action-row">
-                        <div class="dense-tags-wrap">
-                            <span class="info-chip">📱 + 💻 + 📺 (3 слота)</span>
-                            <span class="info-chip">➕ Легкая докупка устройств</span>
-                        </div>
-                        <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="inline-bot-btn">
-                            Забрать 5 дней бесплатно
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                        </a>
+                    <div class="dense-tags-wrap">
+                        <span class="info-chip">📱 + 💻 + 📺 (3 слота сразу)</span>
+                        <span class="info-chip">➕ Легкая докупка слотов</span>
+                        <span class="info-chip accent-chip">🎁 5 дней бесплатно в боте</span>
                     </div>
                 </article>
 
             </div>
         </section>
 
-        <!-- ФУТЕР С INSTAGRAM @alpanapp -->
+        <!-- 5. НИЖНИЙ БЛОК: КНОПКА «ПЕРЕЙТИ В БОТА» ПЕРЕД ИНСТАГРАМОМ (КАК НА РЕФЕРЕНСЕ) -->
         <footer class="social-footer-section apple-reveal apple-fade-up">
-            <a href="https://instagram.com/alpanapp" target="_blank" rel="noopener" class="insta-banner-card">
+            
+            <!-- Кнопка перехода в бота перед Инстаграмом (дизайн 1-в-1 с красной кнопкой с референса) -->
+            <a href="https://t.me/AlpanVPNrobot?start=alpan" target="_blank" rel="noopener" class="reference-red-cta ios27-liquid-crimson">
+                <span class="cta-white-square">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="7" y1="7" x2="17" y2="17"></line>
+                        <polyline points="17 7 17 17 7 17"></polyline>
+                    </svg>
+                </span>
+                <div class="cta-red-texts">
+                    <span class="cta-red-title">Перейти в Telegram-бота и забрать 5 дней</span>
+                    <span class="cta-red-sub">@AlpanVPNrobot • Подключение и тарифы в 1 клик</span>
+                </div>
+            </a>
+
+            <!-- Наш Instagram @alpanapp -->
+            <a href="https://instagram.com/alpanapp" target="_blank" rel="noopener" class="insta-banner-card ios27-liquid">
                 <div class="insta-left">
                     <div class="insta-icon-box">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -1302,7 +1456,7 @@
 
                 <span class="insta-pill-tag">
                     @alpanapp
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="7" y1="17" x2="17" y2="7"></line>
                         <polyline points="7 7 17 7 17 17"></polyline>
                     </svg>
@@ -1311,7 +1465,7 @@
 
             <div class="footer-bottom-meta">
                 <span>© 2026 ALPAN VPN</span>
-                <span>Telegram: @AlpanVPNrobot • Instagram: @alpanapp</span>
+                <span>Бот: @AlpanVPNrobot • Инст: @alpanapp</span>
             </div>
         </footer>
 
@@ -1319,77 +1473,97 @@
 
     <script>
         /* =========================================================
-           1. КОСМИЧЕСКИЙ ЗВУК ЗАГРУЗКИ (WEB AUDIO API СИНТЕЗАТОР)
+           1. ТАКТИЛЬНЫЙ ЗВУК «РИППЕР» (TAPTIC RIPPER) ПРИ БЛИКЕ ЛОГО
            ========================================================= */
-        let bootSoundPlayed = false;
+        let ripperPlayed = false;
 
-        function playCosmicBootSound() {
-            if (bootSoundPlayed) return;
+        function playTactileRipperSound() {
+            if (ripperPlayed) return;
             try {
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
                 if (!AudioCtx) return;
                 const ctx = new AudioCtx();
-
-                if (ctx.state === 'suspended') {
-                    ctx.resume();
-                }
+                if (ctx.state === 'suspended') ctx.resume();
 
                 const now = ctx.currentTime;
 
-                // Создаем глубокий космический аккорд в стиле Apple / Sci-Fi
-                const freqs = [130.81, 196.00, 261.63, 392.00, 523.25]; // C3, G3, C4, G4, C5
-                freqs.forEach((f, idx) => {
+                // Серия быстрых тактильных импульсов (эффект механического риппера / Taptic Engine)
+                const pulses = 9;
+                for (let i = 0; i < pulses; i++) {
+                    const t = now + i * 0.032;
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
+                    const filter = ctx.createBiquadFilter();
 
-                    osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-                    osc.frequency.setValueAtTime(f * 0.96, now);
-                    osc.frequency.exponentialRampToValueAtTime(f, now + 0.35);
+                    osc.type = 'triangle';
+                    // Частота растет вместе с движением блика по логотипу
+                    const baseFreq = 110 + i * 55;
+                    osc.frequency.setValueAtTime(baseFreq, t);
+                    osc.frequency.exponentialRampToValueAtTime(45, t + 0.026);
 
-                    gain.gain.setValueAtTime(0.0001, now);
-                    gain.gain.linearRampToValueAtTime(0.035 / (idx + 1), now + 0.12);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.45);
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(baseFreq * 2.2, t);
 
-                    osc.connect(gain);
+                    gain.gain.setValueAtTime(0.001, t);
+                    gain.gain.linearRampToValueAtTime(0.11, t + 0.004);
+                    gain.gain.exponentialRampToValueAtTime(0.0008, t + 0.028);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
                     gain.connect(ctx.destination);
 
-                    osc.start(now);
-                    osc.stop(now + 1.5);
-                });
+                    osc.start(t);
+                    osc.stop(t + 0.03);
+                }
 
-                bootSoundPlayed = true;
-            } catch (e) {
-                // Игнорируем, если браузер строго запретил автоплей до клика
-            }
+                // Финальный мягкий саб-бас отклик при раскрытии сайта
+                const subOsc = ctx.createOscillator();
+                const subGain = ctx.createGain();
+                subOsc.type = 'sine';
+                subOsc.frequency.setValueAtTime(95, now + 0.28);
+                subOsc.frequency.exponentialRampToValueAtTime(38, now + 0.58);
+
+                subGain.gain.setValueAtTime(0.001, now + 0.28);
+                subGain.gain.linearRampToValueAtTime(0.14, now + 0.32);
+                subGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
+
+                subOsc.connect(subGain);
+                subGain.connect(ctx.destination);
+                subOsc.start(now + 0.28);
+                subOsc.stop(now + 0.65);
+
+                ripperPlayed = true;
+            } catch (e) {}
         }
 
-        // Пытаемся воспроизвести сразу при загрузке + при первом касании экрана (если мобильный браузер заблокировал автоплей)
         window.addEventListener('DOMContentLoaded', () => {
-            playCosmicBootSound();
-            const unlockAudio = () => {
-                playCosmicBootSound();
-                window.removeEventListener('pointerdown', unlockAudio);
-                window.removeEventListener('touchstart', unlockAudio);
-            };
-            window.addEventListener('pointerdown', unlockAudio, { once: true });
-            window.addEventListener('touchstart', unlockAudio, { once: true });
+            playTactileRipperSound();
 
-            // Убираем черный прелоадер ровно через 1.05 секунды
+            // Если мобильный браузер требует первого касания для звука — сработает мгновенно при касании
+            const unlockRipper = () => {
+                playTactileRipperSound();
+                window.removeEventListener('pointerdown', unlockRipper);
+                window.removeEventListener('touchstart', unlockRipper);
+            };
+            window.addEventListener('pointerdown', unlockRipper, { once: true });
+            window.addEventListener('touchstart', unlockRipper, { once: true });
+
+            // Быстрый плавный блюрный переход с логотипа к сайту (0.72 сек)
             setTimeout(() => {
                 const loader = document.getElementById('spaceIntro');
                 if (loader) loader.classList.add('is-hidden');
                 document.body.classList.add('space-ready');
-            }, 1050);
+            }, 720);
         });
 
         /* =========================================================
-           2. 3D-ПОЛЕ ЛЕТЯЩИХ ЗВЕЗД В КОСМОСЕ (CANVAS)
+           2. 3D-ПОЛЕ МЕДЛЕННО ЛЕТЯЩИХ ЗВЕЗД В КОСМОСЕ
            ========================================================= */
         const canvas = document.getElementById('starfieldCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        const STAR_COUNT = 160;
-        let warpFactor = 7.5; // При старте звезды летят быстро, затем замедляются
+        const STAR_COUNT = 150;
+        let warpFactor = 6.5;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -1408,12 +1582,11 @@
         }
 
         function animateStars() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.32)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Плавно замедляем гиперпрыжок до спокойного космического полета
-            if (warpFactor > 0.55) {
-                warpFactor *= 0.965;
+            if (warpFactor > 0.48) {
+                warpFactor *= 0.955;
             }
 
             const cx = canvas.width / 2;
@@ -1429,7 +1602,7 @@
 
                 const sx = (star.x / star.z) * (canvas.width * 0.45) + cx;
                 const sy = (star.y / star.z) * (canvas.height * 0.45) + cy;
-                const radius = Math.max(0.4, (1 - star.z / canvas.width) * 2.2);
+                const radius = Math.max(0.4, (1 - star.z / canvas.width) * 2.1);
                 const alpha = Math.min(1, (1 - star.z / canvas.width) * 1.2);
 
                 ctx.beginPath();
@@ -1445,18 +1618,17 @@
         animateStars();
 
         /* =========================================================
-           3. 3D-ПАРАЛЛАКС ДИАГОНАЛЬНОГО ТЕЛЕФОНА И APPLE REVEAL
+           3. ПАРАЛЛАКС ТЕЛЕФОНА И APPLE REVEAL АНИМАЦИИ
            ========================================================= */
         const phone = document.getElementById('tiltedPhone');
         if (window.matchMedia("(min-width: 860px)").matches && phone) {
             document.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.clientX) / 50;
-                const yAxis = (window.innerHeight / 2 - e.clientY) / 50;
-                phone.style.transform = `perspective(1000px) rotate(-25deg) rotateX(${14 + yAxis}deg) rotateY(${10 - xAxis}deg) translateY(-6px)`;
+                const xAxis = (window.innerWidth / 2 - e.clientX) / 55;
+                const yAxis = (window.innerHeight / 2 - e.clientY) / 55;
+                phone.style.transform = `perspective(1050px) rotate(-14deg) rotateX(${8 + yAxis}deg) rotateY(${-6 - xAxis}deg)`;
             });
         }
 
-        // Направленные Apple-анимации при скролле (слева, справа, снизу)
         const appleElements = document.querySelectorAll('.apple-reveal');
         const appleObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -1467,15 +1639,6 @@
         }, { threshold: 0.12 });
 
         appleElements.forEach((el) => appleObserver.observe(el));
-
-        // Подсветка карточек за курсором
-        document.querySelectorAll('.bento-card').forEach((card) => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-            });
-        });
     </script>
 </body>
 </html>
